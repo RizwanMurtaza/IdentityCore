@@ -11,9 +11,8 @@ namespace QuestOrAssess.UserIdentity.Data
     public class QuestOrAssessIdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int,
                                                     ApplicationUserClaim, ApplicationUserRole, ApplicationUserLoginDetails, 
                                                     ApplicationRoleClaim, IdentityUserToken<int>>
-
-    //IdentityDbContext<ApplicationUser, ApplicationRole ,int >
     {
+        public int CurrentUserId { get; set; }
         public QuestOrAssessIdentityDbContext(DbContextOptions<QuestOrAssessIdentityDbContext> options)
             : base(options)
         {

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +22,7 @@ namespace QuestOrAssess.UserIdentity.Api
         public void ConfigureServices(IServiceCollection services)
         {
             string dbConnectionString =
-                "Server=DESKTOP-LF47L8Q\\RIZWANPC;Database=myDataBase;User Id=sa;Password=rizwan321;";
+                "Server=DESKTOP-DESKTOP-RUP6VAF\\SQLEXPRESS;Database=myDataBase;User Id=sa;Password=rizwan321;";
             string assemblyName = typeof(QuestOrAssessIdentityDbContext).Assembly.GetName().Name;
             
             

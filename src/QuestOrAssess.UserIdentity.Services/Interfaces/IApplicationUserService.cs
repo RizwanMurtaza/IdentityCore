@@ -4,7 +4,8 @@ using System.Text;
 
 namespace QuestOrAssess.UserIdentity.Services.Interfaces
 {
-    public interface IUserRepository
+    public interface IApplicationUserService
     {
+
     }
 }

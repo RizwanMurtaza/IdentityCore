@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\QuestOrAssess.UserIdentity.Core\QuestOrAssess.UserIdentity.Core.csproj" />
+    <ProjectReference Include="..\QuestOrAssess.UserIdentity.Data\QuestOrAssess.UserIdentity.Data.csproj" />
   </ItemGroup>
 
 </Project>
