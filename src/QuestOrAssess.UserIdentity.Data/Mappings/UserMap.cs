@@ -7,12 +7,12 @@ using QuestOrAssess.UserIdentity.Core.Domain;
 
 namespace QuestOrAssess.UserIdentity.Data.Mappings
 {
-    public partial class ApplicationRoleMap : IEntityTypeConfiguration<ApplicationRole>
+    public partial class UserMap : IEntityTypeConfiguration<User> 
     {
-        public void Configure(EntityTypeBuilder<ApplicationRole> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("ApplicationRole");
-
+            builder.ToTable("ApplicationUser");
+            builder.HasKey(x => x.Id);
         }
     }
 }

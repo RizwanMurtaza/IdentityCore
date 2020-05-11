@@ -7,11 +7,12 @@ using QuestOrAssess.UserIdentity.Core.Domain;
 
 namespace QuestOrAssess.UserIdentity.Data.Mappings
 {
-    public partial class ApplicationUserMap : IEntityTypeConfiguration<ApplicationUser> 
+    public partial class LoginDetailMap : IEntityTypeConfiguration<LoginDetails>
     {
-        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+        public void Configure(EntityTypeBuilder<LoginDetails> builder)
         {
-            builder.ToTable("ApplicationUser");
+            builder.ToTable("LoginDetail");
+            //builder.Property(x => x.LoginProvider).HasMaxLength(760);
         }
     }
 }

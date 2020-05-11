@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace QuestOrAssess.UserIdentity.Core.Domain
 {
-    public class ApplicationUser: IdentityUser<int> 
+    public class User: IdentityUser<int> , IAuditableEntity
     {
+        public int ApplicationId { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -22,12 +24,15 @@ namespace QuestOrAssess.UserIdentity.Core.Domain
         
         public bool IsPrimary { get; set; }
 
-        public byte[] ProfilePicture { get; set; }
+        public virtual ICollection<UserPermission> Permission { get; set; }
+
+        public virtual ICollection<GroupUser> Groups { get; set; }
+        public virtual Application Application { get; set; }
 
 
-        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
-        public virtual ICollection<ApplicationUserClaim> UserClaims { get; set; }
-
-
+        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

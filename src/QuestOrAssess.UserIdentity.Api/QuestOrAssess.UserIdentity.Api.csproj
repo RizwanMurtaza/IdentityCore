@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\QuestOrAssess.UserIdentity.Core\QuestOrAssess.UserIdentity.Core.csproj" />
     <ProjectReference Include="..\QuestOrAssess.UserIdentity.Data\QuestOrAssess.UserIdentity.Data.csproj" />
+    <ProjectReference Include="..\QuestOrAssess.UserIdentity.Services\QuestOrAssess.UserIdentity.Services.csproj" />
   </ItemGroup>
 
 </Project>

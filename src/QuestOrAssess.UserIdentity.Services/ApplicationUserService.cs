@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using QuestOrAssess.UserIdentity.Core.Domain;
 using QuestOrAssess.UserIdentity.Data;
-using QuestOrAssess.UserIdentity.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,17 +11,17 @@ namespace QuestOrAssess.UserIdentity.Services
 {
 
 
-    public class ApplicationUserService: IApplicationUserService
+    public class ApplicationUserService : IApplicationUserService
     {
-        private readonly UserManager<ApplicationUser> _applicationUserManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly UserManager<User> _applicationUserManager;
+        private readonly RoleManager<Permission> _roleManager;
         private readonly QuestOrAssessIdentityDbContext _dbContext;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public ApplicationUserService(UserManager<ApplicationUser> applicationUserManager,
-                                    RoleManager<ApplicationRole> roleManager, 
+        public ApplicationUserService(UserManager<User> applicationUserManager,
+                                    RoleManager<Permission> roleManager, 
                                     QuestOrAssessIdentityDbContext dbContext,
-                                    IHttpContextAccessor httpAccessor, SignInManager<ApplicationUser> signInManager)
+                                    IHttpContextAccessor httpAccessor, SignInManager<User> signInManager)
         {
             _applicationUserManager = applicationUserManager;
             _roleManager = roleManager;
@@ -31,41 +30,41 @@ namespace QuestOrAssess.UserIdentity.Services
             // dbContext.CurrentUserId = httpAccessor.HttpContext?.User.FindFirst("userId")?.Value?.Trim();
         }
 
-        public Task<ApplicationUser> GetUser(int id)
+        public Task<User> GetUser(int id)
         {
             return _applicationUserManager.FindByIdAsync(id.ToString());
         }
-        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
+        public async Task<User> GetUserByIdAsync(string userId)
         {
             return await _applicationUserManager.FindByIdAsync(userId);
         }
 
-        public async Task<ApplicationUser> GetUserByUserNameAsync(string userName)
+        public async Task<User> GetUserByUserNameAsync(string userName)
         {
             return await _applicationUserManager.FindByNameAsync(userName);
         }
 
-        public async Task<ApplicationUser> GetUserByEmailAsync(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _applicationUserManager.FindByEmailAsync(email);
         }
 
-        public async Task<IList<string>> GetUserRolesAsync(ApplicationUser user)
+        public async Task<IList<string>> GetUserRolesAsync(User user)
         {
             return await _applicationUserManager.GetRolesAsync(user);
         }
 
-        public async Task<(ApplicationUser User, IEnumerable<string> Roles)?> GetUserAndRolesAsync(int userId)
+        public async Task<(User User, IEnumerable<string> Roles)?> GetUserAndRolesAsync(int userId)
         {
             var user = await _dbContext.Users
-                .Include(u => u.UserRoles)
+                .Include(u => u.Permission)
                 .Where(u => u.Id == userId)
                 .SingleOrDefaultAsync();
 
             if (user == null)
                 return null;
 
-            var userRoleIds = user.UserRoles.Select(r => r.RoleId).ToList();
+            var userRoleIds = user.Permission.Select(r => r.RoleId).ToList();
 
             var roles = await _dbContext.Roles
                 .Where(r => userRoleIds.Contains(r.Id))
@@ -75,7 +74,7 @@ namespace QuestOrAssess.UserIdentity.Services
             return (user, roles);
         }
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(User user, IEnumerable<string> roles, string password)
         {
             var result = await _applicationUserManager.CreateAsync(user, password);
             if (!result.Succeeded)
@@ -104,13 +103,13 @@ namespace QuestOrAssess.UserIdentity.Services
         }
 
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(ApplicationUser user)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(User user)
         {
             return await UpdateUserAsync(user, null);
         }
 
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(ApplicationUser user, IEnumerable<string> roles)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(User user, IEnumerable<string> roles)
         {
             var result = await _applicationUserManager.UpdateAsync(user);
             if (!result.Succeeded)
@@ -143,7 +142,7 @@ namespace QuestOrAssess.UserIdentity.Services
         }
 
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> ResetPasswordAsync(ApplicationUser user, string newPassword)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> ResetPasswordAsync(User user, string newPassword)
         {
             var resetToken = await _applicationUserManager.GeneratePasswordResetTokenAsync(user);
 
@@ -154,7 +153,7 @@ namespace QuestOrAssess.UserIdentity.Services
             return (true, new string[] { });
         }
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdatePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdatePasswordAsync(User user, string currentPassword, string newPassword)
         {
             var result = await _applicationUserManager.ChangePasswordAsync(user, currentPassword, newPassword);
             if (!result.Succeeded)
@@ -163,7 +162,7 @@ namespace QuestOrAssess.UserIdentity.Services
             return (true, new string[] { });
         }
 
-        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
+        public async Task<bool> CheckPasswordAsync(User user, string password)
         {
             if (!await _applicationUserManager.CheckPasswordAsync(user, password))
             {
@@ -186,7 +185,7 @@ namespace QuestOrAssess.UserIdentity.Services
         }
 
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> DeleteUserAsync(ApplicationUser user)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> DeleteUserAsync(User user)
         {
             var result = await _applicationUserManager.DeleteAsync(user);
             return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
@@ -255,7 +254,7 @@ namespace QuestOrAssess.UserIdentity.Services
             return (true, new string[] { });
         }
 
-        public async Task<(bool Succeeded, string[] Errors)> DeleteRoleAsync(ApplicationRole role)
+        public async Task<(bool Succeeded, string[] Errors)> DeleteRoleAsync(Permission role)
         {
             var result = await _roleManager.DeleteAsync(role);
             return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());

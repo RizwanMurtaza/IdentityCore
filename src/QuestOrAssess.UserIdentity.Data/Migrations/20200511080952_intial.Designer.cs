@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuestOrAssess.UserIdentity.Data;
 
 namespace QuestOrAssess.UserIdentity.Data.Migrations
 {
     [DbContext(typeof(QuestOrAssessIdentityDbContext))]
-    partial class QuestOrAssessIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200511080952_intial")]
+    partial class intial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

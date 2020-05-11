@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QuestOrAssess.UserIdentity.Core.Domain;
 using QuestOrAssess.UserIdentity.Services;
 
-namespace QuestOrAssess.UserIdentity.Api.Controllers
+namespace UserIdentity.Api.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class UserController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IGroupService _groupService;
+
         public UserController(IAuthenticationService authenticationService, IGroupService groupService)
         {
             _authenticationService = authenticationService;
@@ -19,10 +20,9 @@ namespace QuestOrAssess.UserIdentity.Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("Authenticate")]
         public async Task<IActionResult> Login(string userName, string password)
         {
-
             var app = new Application()
             {
                 ApplicationKey = Guid.NewGuid(),
@@ -30,9 +30,7 @@ namespace QuestOrAssess.UserIdentity.Api.Controllers
             };
 
             var AppResulkt = _groupService.AddNewApplication(app);
-
             var result = await _authenticationService.Login(userName, password);
-
             if(result.Item1)
                 return Ok(new { token = result.Item2});
 
@@ -40,10 +38,10 @@ namespace QuestOrAssess.UserIdentity.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public string Get()
         {
 
-            return Ok("Hello there");
+            return "Hello there";
         }
     }
 }

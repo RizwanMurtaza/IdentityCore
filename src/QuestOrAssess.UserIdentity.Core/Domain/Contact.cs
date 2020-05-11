@@ -9,6 +9,6 @@
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public bool IsPrimary { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual User User { get; set; }
     }
 }
