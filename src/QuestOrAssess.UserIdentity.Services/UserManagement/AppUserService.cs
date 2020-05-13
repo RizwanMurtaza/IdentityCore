@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using QuestOrAssess.UserIdentity.Core;
+using QuestOrAssess.UserIdentity.Core.Domain;
 using QuestOrAssess.UserIdentity.Core.Domain.Identity;
 using QuestOrAssess.UserIdentity.Data;
 
@@ -41,6 +44,13 @@ namespace QuestOrAssess.UserIdentity.Services.UserManagement
             return await _applicationUserManager.FindByEmailAsync(email);
         }
 
+        public async Task<ServiceResponse<AppUser>> AddUserAsync(AppUser user)
+        {
+            var result =  await _applicationUserManager.CreateAsync(user);
+            if (!result.Succeeded) return new ServiceResponse<AppUser>().FailedResponse("failed to create user");
+            var createdUser = await _applicationUserManager.FindByEmailAsync(user.Email);
+            return new ServiceResponse<AppUser>().SuccessResponse(createdUser);
+        }
         public async Task<IList<string>> GetUserRolesAsync(AppUser user)
         {
             return await _applicationUserManager.GetRolesAsync(user);

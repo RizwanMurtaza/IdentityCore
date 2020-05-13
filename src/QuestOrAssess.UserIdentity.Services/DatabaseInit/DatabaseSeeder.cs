@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Bogus;
 using QuestOrAssess.UserIdentity.Core.Domain;
 using QuestOrAssess.UserIdentity.Core.Domain.Group;
+using QuestOrAssess.UserIdentity.Core.Domain.Identity;
 using QuestOrAssess.UserIdentity.Services.AppManagement;
 using QuestOrAssess.UserIdentity.Services.UserManagement;
 
@@ -40,6 +43,12 @@ namespace QuestOrAssess.UserIdentity.Services.DatabaseInit
             {
                 permissionCreated = await InitializePermissions();
             }
+
+            if (permissionCreated)
+            {
+                var users = await InitializeUsers();
+            }
+
             return permissionCreated;
         }
         private async Task<bool> InitializeApplication()
@@ -85,6 +94,41 @@ namespace QuestOrAssess.UserIdentity.Services.DatabaseInit
             
             return true;
         }
+        private async Task<List<AppUser>> InitializeUsers()
+        {
+
+            var app = await _appService.GetApplicationByName(DefaultApplication);
+            if (!app.HasData)
+            {
+             return new List<AppUser>();
+            }
+            var fakeUsers = new Faker<AppUser>()
+                .RuleFor(o => o.UpdatedAt, f => f.Date.Recent(100))
+                .RuleFor(o => o.PhoneNumber, f => f.Person.Phone)
+                .RuleFor(o => o.FirstName, f => f.Name.FirstName())
+                .RuleFor(o => o.LastName, f => f.Name.LastName())
+                .RuleFor(o => o.ActiveLanguageId, 2)
+                .RuleFor(o => o.UserName, f => f.Name.FirstName())
+                .RuleFor(o => o.PasswordHash, "rizwan321")
+                .RuleFor(o => o.ApplicationId, app.Object.Id)
+                .RuleFor(o => o.Application, app.Object)
+                .RuleFor(o => o.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
+                .RuleFor(o => o.IsActive, f => true);
+
+            var users = fakeUsers.Generate(100);
+            var createdUsers = new List<AppUser>();
+            foreach (var appUser in users)
+            {
+                var user = await _appUserService.AddUserAsync(appUser);
+                if (user.Success)
+                { 
+                    createdUsers.Add(user.Object);
+                }
+            }
+
+            return createdUsers;
+        }
+
         private async Task<bool> InitializePermissions()
         {
             foreach (var permissionName in Enum.GetNames(typeof(AppPermissions)))

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using QuestOrAssess.UserIdentity.Core;
 using QuestOrAssess.UserIdentity.Core.Domain.Identity;
 
 namespace QuestOrAssess.UserIdentity.Services.UserManagement
@@ -10,6 +11,7 @@ namespace QuestOrAssess.UserIdentity.Services.UserManagement
         Task<AppUser> GetUserByIdAsync(string userId);
         Task<AppUser> GetUserByUserNameAsync(string userName);
         Task<AppUser> GetUserByEmailAsync(string email);
+        Task<ServiceResponse<AppUser>> AddUserAsync(AppUser user);
         Task<IList<string>> GetUserRolesAsync(AppUser user);
         Task<(AppUser User, IEnumerable<string> Roles)?> GetUserAndRolesAsync(int userId);
         Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(AppUser user, IEnumerable<string> roles, string password);
