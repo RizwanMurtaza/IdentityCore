@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QuestOrAssess.UserIdentity.Core.Domain;
 
@@ -13,6 +14,15 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
         private readonly QuestOrAssessIdentityDbContext _context;
         private DbSet<T> _entities;
 
+        #region Properties
+
+        public virtual IQueryable<T> Table => this.Entities;
+        public virtual IQueryable<T> TableNoTracking => this.Entities.AsNoTracking();
+        protected virtual DbSet<T> Entities
+        {
+            get { return _entities ??= _context.Set<T>(); }
+        }
+        #endregion
         public DbRepositoryPattern(QuestOrAssessIdentityDbContext context)
         {
             this._context = context;
@@ -25,13 +35,11 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
                     msg += string.Format("Property: {0} Error: {1}", exc.InnerException) + Environment.NewLine;
             return msg;
         }
-
-        public virtual T GetById(object id)
+        public virtual async Task<T> GetById(object id)
         {
-            return this.Entities.Find(id);
+            return await this.Entities.FindAsync(id);
         }
-
-        public virtual OutResult Insert(T entity)
+        public virtual async Task<OutResult> Insert(T entity)
         {
             try
             {
@@ -40,8 +48,9 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
                     return OutResult.Error_TryingToInsertNull();
                 }
 
-                this.Entities.Add(entity);
-                this._context.SaveChanges();
+                AddInsertEntityWithDateTime(entity);
+                await this.Entities.AddAsync(entity);
+                await this._context.SaveChangesAsync();
             }
             catch (Exception dbEx)
             {
@@ -50,18 +59,18 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
             }
             return OutResult.Success_Created();
         }
-
-        public virtual OutResult Insert(IEnumerable<T> entities)
+        public virtual async Task<OutResult> Insert(IEnumerable<T> entities)
         {
             try
             {
                 if (entities == null)
                     return OutResult.Error_TryingToInsertNull();
 
+                AddInsertEntityWithDateTime(entities);
                 foreach (var entity in entities)
-                    this.Entities.Add(entity);
+                    await this.Entities.AddAsync(entity);
 
-                this._context.SaveChanges();
+                await this._context.SaveChangesAsync();
             }
             catch (Exception dbEx)
             {
@@ -70,15 +79,15 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
             }
             return OutResult.Success_Created();
         }
-
-        public virtual OutResult Update(T entity)
+        public virtual async Task<OutResult> Update(T entity)
         {
             try
             {
                 if (entity == null)
                     return OutResult.Error_TryingToUpdateNull();
+                AddUpdateEntityWithDateTime(entity);
                 this.Entities.Update(entity);
-                this._context.SaveChanges();
+                await this._context.SaveChangesAsync();
             }
             catch (Exception dbEx)
             {
@@ -88,18 +97,16 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
 
             return OutResult.Success_Updated();
         }
-
-        /// <summary>
-        /// Update entities
-        /// </summary>
-        /// <param name="entities">Entities</param>
-        public virtual OutResult Update(IEnumerable<T> entities)
+        public virtual async Task<OutResult> Update(IEnumerable<T> entities)
         {
             try
             {
                 if (entities == null)
                     return OutResult.Error_TryingToUpdateNull();
-                this._context.SaveChanges();
+
+                AddUpdateEntityWithDateTime(entities);
+                this.Entities.UpdateRange(entities);
+                await this._context.SaveChangesAsync();
             }
             catch (Exception dbEx)
             {
@@ -109,12 +116,7 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
 
             return OutResult.Success_Updated();
         }
-
-        /// <summary>
-        /// Delete entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        public virtual OutResult Delete(T entity)
+        public virtual async Task<OutResult> Delete(T entity)
         {
             try
             {
@@ -123,7 +125,7 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
 
                 this.Entities.Remove(entity);
 
-                this._context.SaveChanges();
+                await this._context.SaveChangesAsync();
             }
             catch (Exception dbEx)
             {
@@ -133,12 +135,7 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
 
             return OutResult.Success_Deleted();
         }
-
-        /// <summary>
-        /// Delete entities
-        /// </summary>
-        /// <param name="entities">Entities</param>
-        public virtual OutResult Delete(IEnumerable<T> entities)
+        public virtual async Task<OutResult> Delete(IEnumerable<T> entities)
         {
             try
             {
@@ -148,7 +145,7 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
                 foreach (var entity in entities)
                     this.Entities.Remove(entity);
 
-                this._context.SaveChanges();
+                await this._context.SaveChangesAsync();
             }
             catch (Exception dbEx)
             {
@@ -159,45 +156,34 @@ namespace QuestOrAssess.UserIdentity.Data.Repository
             return OutResult.Success_Deleted();
         }
 
+        private void AddInsertEntityWithDateTime(T entity)
+        {
+            entity.CreatedAt = DateTime.Now;
+            entity.UpdatedAt = DateTime.Now;
+        }
+        private void AddInsertEntityWithDateTime(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                AddInsertEntityWithDateTime(entity);
+            }
+        }
+        private void AddUpdateEntityWithDateTime(T entity)
+        {
+            entity.UpdatedAt = DateTime.Now;
+        }
+        private void AddUpdateEntityWithDateTime(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                AddUpdateEntityWithDateTime(entity);
+            }
+        }
+
+
+
         #endregion
 
-        #region Properties
 
-        /// <summary>
-        /// Gets a table
-        /// </summary>
-        public virtual IQueryable<T> Table
-        {
-            get
-            {
-                return this.Entities;
-            }
-        }
-
-        /// <summary>
-        /// Gets a table with "no tracking" enabled (EF feature) Use it only when you load record(s) only for read-only operations
-        /// </summary>
-        public virtual IQueryable<T> TableNoTracking
-        {
-            get
-            {
-                return this.Entities.AsNoTracking();
-            }
-        }
-
-        /// <summary>
-        /// Entities
-        /// </summary>
-        protected virtual DbSet<T> Entities
-        {
-            get
-            {
-                if (_entities == null)
-                    _entities = _context.Set<T>();
-                return _entities;
-            }
-        }
-
-        #endregion
     }
 }

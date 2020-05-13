@@ -1,17 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Migrations;
-using QuestOrAssess.UserIdentity.Core.Domain;
+using QuestOrAssess.UserIdentity.Core.Domain.Identity;
 
 namespace QuestOrAssess.UserIdentity.Data
 {
-    public class QuestOrAssessIdentityDbContext : IdentityDbContext<User, Permission, int,
-                                                    IdentityUserClaim<int>, UserPermission, LoginDetails, 
+    public sealed class QuestOrAssessIdentityDbContext : IdentityDbContext<AppUser, AppPermission, int,
+                                                    IdentityUserClaim<int>, AppUserPermission, LoginDetails, 
                                                     IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public int CurrentUserId { get; set; }

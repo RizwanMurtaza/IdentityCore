@@ -2,7 +2,7 @@
 
 namespace QuestOrAssess.UserIdentity.Core
 {
-    public class ServiceResponse<T> where T : IAuditableEntity
+    public class ServiceResponse<T>
     {
         public T Object;
         public bool Success { get; set; }

@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using QuestOrAssess.UserIdentity.Core.Domain.Identity;
 
-namespace QuestOrAssess.UserIdentity.Core.Domain
+namespace QuestOrAssess.UserIdentity.Core.Domain.Group
 {
     public class GroupUser : IAuditableEntity
     {
         public int Id { get; set; }
         public int UserId { get; set; }
         public int GroupId { get; set; }
-        public virtual User User { get; set; }
-        public virtual Group Group { get; set; }
+        public virtual AppUser User { get; set; }
+        public virtual AppGroup Group { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

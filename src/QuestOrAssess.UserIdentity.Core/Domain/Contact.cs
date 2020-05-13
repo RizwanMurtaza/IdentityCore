@@ -1,4 +1,6 @@
-﻿namespace QuestOrAssess.UserIdentity.Core.Domain
+﻿using QuestOrAssess.UserIdentity.Core.Domain.Identity;
+
+namespace QuestOrAssess.UserIdentity.Core.Domain
 {
     public class Contact 
     {
@@ -9,6 +11,6 @@
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public bool IsPrimary { get; set; }
-        public virtual User User { get; set; }
+        public virtual AppUser User { get; set; }
     }
 }

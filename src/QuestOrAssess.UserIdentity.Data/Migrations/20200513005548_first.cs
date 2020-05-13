@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuestOrAssess.UserIdentity.Data.Migrations
 {
-    public partial class intial : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,7 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Permissions",
+                name: "AppPermissions",
                 columns: table => new
                 {
                     PermissionId = table.Column<int>(nullable: false)
@@ -44,11 +44,36 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.PermissionId);
+                    table.PrimaryKey("PK_AppPermissions", x => x.PermissionId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ApplicationUser",
+                name: "AppGroups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppGroups", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppGroups_Applications_ApplicationId",
+                        column: x => x.ApplicationId,
+                        principalTable: "Applications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppUsers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -82,34 +107,9 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                    table.PrimaryKey("PK_AppUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ApplicationUser_Applications_ApplicationId",
-                        column: x => x.ApplicationId,
-                        principalTable: "Applications",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Groups",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    UpdatedBy = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Groups", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Groups_Applications_ApplicationId",
+                        name: "FK_AppUsers_Applications_ApplicationId",
                         column: x => x.ApplicationId,
                         principalTable: "Applications",
                         principalColumn: "Id",
@@ -130,11 +130,39 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 {
                     table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_Permissions_RoleId",
+                        name: "FK_AspNetRoleClaims_AppPermissions_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Permissions",
+                        principalTable: "AppPermissions",
                         principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupPermissions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PermissionId = table.Column<int>(nullable: false),
+                    GroupId = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupPermissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GroupPermissions_AppPermissions_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "AppPermissions",
+                        principalColumn: "PermissionId");
+                    table.ForeignKey(
+                        name: "FK_GroupPermissions_AppGroups_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "AppGroups",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -151,9 +179,9 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_ApplicationUser_UserId",
+                        name: "FK_AspNetUserClaims_AppUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "ApplicationUser",
+                        principalTable: "AppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -171,11 +199,39 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_ApplicationUser_UserId",
+                        name: "FK_AspNetUserTokens_AppUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "ApplicationUser",
+                        principalTable: "AppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: false),
+                    GroupId = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GroupUsers_AppGroups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "AppGroups",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_GroupUsers_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -195,9 +251,9 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 {
                     table.PrimaryKey("PK_LoginDetail", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_LoginDetail_ApplicationUser_UserId",
+                        name: "FK_LoginDetail_AppUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "ApplicationUser",
+                        principalTable: "AppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -219,86 +275,42 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 {
                     table.PrimaryKey("PK_UserPermissions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserPermissions_Permissions_PermissionId",
+                        name: "FK_UserPermissions_AppPermissions_PermissionId",
                         column: x => x.PermissionId,
-                        principalTable: "Permissions",
+                        principalTable: "AppPermissions",
                         principalColumn: "PermissionId");
                     table.ForeignKey(
-                        name: "FK_UserPermissions_ApplicationUser_UserId",
+                        name: "FK_UserPermissions_AppUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "ApplicationUser",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GroupPermissions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PermissionId = table.Column<int>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    UpdatedBy = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GroupPermissions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GroupPermissions_Permissions_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Permissions",
-                        principalColumn: "PermissionId");
-                    table.ForeignKey(
-                        name: "FK_GroupPermissions_Groups_PermissionId",
-                        column: x => x.PermissionId,
-                        principalTable: "Groups",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GroupUsers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    UpdatedBy = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GroupUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GroupUsers_Groups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Groups",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_GroupUsers_ApplicationUser_UserId",
-                        column: x => x.UserId,
-                        principalTable: "ApplicationUser",
+                        principalTable: "AppUsers",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUser_ApplicationId",
-                table: "ApplicationUser",
+                name: "IX_AppGroups_ApplicationId",
+                table: "AppGroups",
+                column: "ApplicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AppPermissions",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppUsers_ApplicationId",
+                table: "AppUsers",
                 column: "ApplicationId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "ApplicationUser",
+                table: "AppUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "ApplicationUser",
+                table: "AppUsers",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
@@ -324,11 +336,6 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_ApplicationId",
-                table: "Groups",
-                column: "ApplicationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GroupUsers_GroupId",
                 table: "GroupUsers",
                 column: "GroupId");
@@ -342,13 +349,6 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 name: "IX_LoginDetail_UserId",
                 table: "LoginDetail",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "Permissions",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPermissions_PermissionId",
@@ -385,13 +385,13 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                 name: "UserPermissions");
 
             migrationBuilder.DropTable(
-                name: "Groups");
+                name: "AppGroups");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
+                name: "AppPermissions");
 
             migrationBuilder.DropTable(
-                name: "ApplicationUser");
+                name: "AppUsers");
 
             migrationBuilder.DropTable(
                 name: "Applications");

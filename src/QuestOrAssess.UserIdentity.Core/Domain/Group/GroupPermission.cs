@@ -1,6 +1,7 @@
 ﻿using System;
+using QuestOrAssess.UserIdentity.Core.Domain.Identity;
 
-namespace QuestOrAssess.UserIdentity.Core.Domain
+namespace QuestOrAssess.UserIdentity.Core.Domain.Group
 {
     public class GroupPermission : IAuditableEntity
     {
@@ -8,10 +9,8 @@ namespace QuestOrAssess.UserIdentity.Core.Domain
 
         public int PermissionId { get; set; }
         public int GroupId { get; set; }
-        public virtual Permission Permission { get; set; }
-        public virtual Group Group { get; set; }
-
-
+        public virtual AppPermission Permission { get; set; }
+        public virtual AppGroup Group { get; set; }
 
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }

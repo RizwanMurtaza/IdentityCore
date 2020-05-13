@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using QuestOrAssess.UserIdentity.Core.Domain.Group;
 
-namespace QuestOrAssess.UserIdentity.Core.Domain
+namespace QuestOrAssess.UserIdentity.Core.Domain.Identity
 {
-    public class Group : IAuditableEntity
+    public class AppPermission : IdentityRole<int> , IAuditableEntity
     {
         public int ApplicationId { get; set; }
-        public virtual Application Application { get; set; }
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string Description { get; set; }
+        public DateTime CreationDate { get; set; }
         public virtual ICollection<GroupPermission> GroupPermissions { get; set; }
-        public virtual ICollection<GroupUser> UsersInGroup { get; set; }
+        public virtual ICollection<AppUserPermission> UserPermissions { get; set; }
+        //public virtual ICollection<User> Users { get; set; }
 
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }

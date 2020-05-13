@@ -4,17 +4,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using QuestOrAssess.UserIdentity.Core.Domain;
+using QuestOrAssess.UserIdentity.Core.Domain.Identity;
+using QuestOrAssess.UserIdentity.Services.Authentication;
 
 namespace QuestOrAssess.UserIdentity.Services
 {
 
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _applicationUserManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _applicationUserManager;
         private readonly IJwtTokenService _jwtTokenService;
-        public AuthenticationService(SignInManager<User> signInManager,
-                                    UserManager<User> applicationUserManager, IJwtTokenService jwtTokenService)
+        public AuthenticationService(SignInManager<AppUser> signInManager,
+                                    UserManager<AppUser> applicationUserManager, IJwtTokenService jwtTokenService)
         {
             _signInManager = signInManager;
             _applicationUserManager = applicationUserManager;
@@ -36,8 +38,6 @@ namespace QuestOrAssess.UserIdentity.Services
                     return (false, "You must have a confirmed email to log in.");
                 }
             }
-           
-
             return (true, _jwtTokenService.GenerateToken(userName));
         }
 

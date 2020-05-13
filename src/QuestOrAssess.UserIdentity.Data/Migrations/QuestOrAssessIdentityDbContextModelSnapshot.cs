@@ -15,7 +15,7 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -114,7 +114,7 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                     b.ToTable("Applications");
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Group", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Group.AppGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,10 +146,10 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
 
                     b.HasIndex("ApplicationId");
 
-                    b.ToTable("Groups");
+                    b.ToTable("AppGroups");
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.GroupPermission", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Group.GroupPermission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -183,7 +183,7 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                     b.ToTable("GroupPermissions");
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.GroupUser", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Group.GroupUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -217,40 +217,7 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                     b.ToTable("GroupUsers");
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.LoginDetails", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("LoginDetail");
-                });
-
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Permission", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppPermission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -298,10 +265,10 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("AppPermissions");
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.User", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -403,10 +370,10 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("ApplicationUser");
+                    b.ToTable("AppUsers");
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.UserPermission", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUserPermission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -441,9 +408,42 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                     b.ToTable("UserPermissions");
                 });
 
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Identity.LoginDetails", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LoginDetail");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Permission", null)
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppPermission", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -452,7 +452,7 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.User", null)
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -461,14 +461,14 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.User", null)
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Group", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Group.AppGroup", b =>
                 {
                     b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Application", "Application")
                         .WithMany("ApplicationGroup")
@@ -477,66 +477,66 @@ namespace QuestOrAssess.UserIdentity.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.GroupPermission", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Group.GroupPermission", b =>
                 {
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Permission", "Permission")
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppPermission", "Permission")
                         .WithMany("GroupPermissions")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Group", "Group")
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Group.AppGroup", "Group")
                         .WithMany("GroupPermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.GroupUser", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Group.GroupUser", b =>
                 {
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Group", "Group")
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Group.AppGroup", "Group")
                         .WithMany("UsersInGroup")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.User", "User")
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUser", "User")
                         .WithMany("Groups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.LoginDetails", b =>
-                {
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.User", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUser", b =>
                 {
                     b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Application", "Application")
-                        .WithMany()
+                        .WithMany("AppUsers")
                         .HasForeignKey("ApplicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.UserPermission", b =>
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUserPermission", b =>
                 {
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Permission", "Permission")
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppPermission", "Permission")
                         .WithMany("UserPermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.User", "User")
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUser", "User")
                         .WithMany("Permission")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QuestOrAssess.UserIdentity.Core.Domain.Identity.LoginDetails", b =>
+                {
+                    b.HasOne("QuestOrAssess.UserIdentity.Core.Domain.Identity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

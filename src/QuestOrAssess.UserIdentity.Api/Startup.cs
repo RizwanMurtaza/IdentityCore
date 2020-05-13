@@ -22,7 +22,6 @@ namespace QuestOrAssess.UserIdentity.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-           
             services.AddUserIdentityServices(Configuration);
             services.AddControllers();
         }
@@ -32,6 +31,7 @@ namespace QuestOrAssess.UserIdentity.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.EnsureDatabaseIsSeeded(true);
             }
             else
             {

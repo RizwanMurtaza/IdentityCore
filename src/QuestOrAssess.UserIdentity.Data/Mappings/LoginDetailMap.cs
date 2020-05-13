@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using QuestOrAssess.UserIdentity.Core.Domain;
+using QuestOrAssess.UserIdentity.Core.Domain.Identity;
 
 namespace QuestOrAssess.UserIdentity.Data.Mappings
 {

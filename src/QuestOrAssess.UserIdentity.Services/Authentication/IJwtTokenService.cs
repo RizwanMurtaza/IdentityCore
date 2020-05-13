@@ -1,4 +1,4 @@
-﻿namespace QuestOrAssess.UserIdentity.Services
+﻿namespace QuestOrAssess.UserIdentity.Services.Authentication
 {
     public interface IJwtTokenService
     {

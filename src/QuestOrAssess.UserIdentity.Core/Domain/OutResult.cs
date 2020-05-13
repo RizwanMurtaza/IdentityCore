@@ -56,7 +56,10 @@ namespace QuestOrAssess.UserIdentity.Core.Domain
 
 
         #region Failure Messages
-
+        public static OutResult Failed(string msg)
+        {
+            return new OutResult(msg, false);
+        }
         public static OutResult Error_TryingToInsertNull()
         {
             return new OutResult("Trying to insert Null", false);

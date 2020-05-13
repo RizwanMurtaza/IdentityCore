@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace QuestOrAssess.UserIdentity.Services
+namespace QuestOrAssess.UserIdentity.Services.Authentication
 {
     public class JwtTokenService : IJwtTokenService
     {
@@ -24,12 +24,12 @@ namespace QuestOrAssess.UserIdentity.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.key));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _jwtOptions.issuer,
-                audience: _jwtOptions.issuer,
+                issuer: _jwtOptions.Issuer,
+                audience: _jwtOptions.Issuer,
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials);

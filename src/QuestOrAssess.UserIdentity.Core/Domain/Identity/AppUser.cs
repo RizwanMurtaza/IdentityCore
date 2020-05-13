@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using QuestOrAssess.UserIdentity.Core.Domain.Group;
 
-namespace QuestOrAssess.UserIdentity.Core.Domain
+namespace QuestOrAssess.UserIdentity.Core.Domain.Identity
 {
-    public class User: IdentityUser<int> , IAuditableEntity
+    public class AppUser: IdentityUser<int> , IAuditableEntity
     {
+
         public int ApplicationId { get; set; }
 
         public string FirstName { get; set; }
@@ -24,7 +26,7 @@ namespace QuestOrAssess.UserIdentity.Core.Domain
         
         public bool IsPrimary { get; set; }
 
-        public virtual ICollection<UserPermission> Permission { get; set; }
+        public virtual ICollection<AppUserPermission> Permission { get; set; }
 
         public virtual ICollection<GroupUser> Groups { get; set; }
         public virtual Application Application { get; set; }

@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace QuestOrAssess.UserIdentity.Core.Domain
+namespace QuestOrAssess.UserIdentity.Core.Domain.Identity
 {
     public class LoginDetails : IdentityUserLogin<int>, IAuditableEntity
     {

@@ -4,12 +4,13 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using QuestOrAssess.UserIdentity.Core.Domain;
+using QuestOrAssess.UserIdentity.Core.Domain.Identity;
 
 namespace QuestOrAssess.UserIdentity.Data.Mappings
 {
-    public partial class UserPermissionMap : IEntityTypeConfiguration<UserPermission>
+    public partial class UserPermissionMap : IEntityTypeConfiguration<AppUserPermission>
     {
-        public void Configure(EntityTypeBuilder<UserPermission> builder)
+        public void Configure(EntityTypeBuilder<AppUserPermission> builder)
         {
             builder.ToTable("UserPermissions");
             builder.HasKey(x => x.Id);

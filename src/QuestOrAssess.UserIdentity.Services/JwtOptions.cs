@@ -4,7 +4,7 @@ namespace QuestOrAssess.UserIdentity.Services
 {
     public  class JwtOptions
     {
-        public  string key { get; set; }
-        public  string issuer { get; set; }
+        public  string Key { get; set; }
+        public  string Issuer { get; set; }
     }
 }

@@ -5,14 +5,15 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using QuestOrAssess.UserIdentity.Core.Domain;
+using QuestOrAssess.UserIdentity.Core.Domain.Group;
 
 namespace QuestOrAssess.UserIdentity.Data.Mappings
 {
-    public partial class GroupMap : IEntityTypeConfiguration<Group>
+    public partial class AppGroupMap : IEntityTypeConfiguration<AppGroup>
     {
-        public void Configure(EntityTypeBuilder<Group> builder)
+        public void Configure(EntityTypeBuilder<AppGroup> builder)
         {
-            builder.ToTable("Groups");
+            builder.ToTable("AppGroups");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.ApplicationId).IsRequired();
 

@@ -5,14 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QuestOrAssess.UserIdentity.Core.Domain;
 using QuestOrAssess.UserIdentity.Services;
+using QuestOrAssess.UserIdentity.Services.AppManagement;
 
 namespace QuestOrAssess.UserIdentity.Api.Controllers
 {
     public class UserController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IGroupService _groupService;
-        public UserController(IAuthenticationService authenticationService, IGroupService groupService)
+        private readonly IAppGroupService _groupService;
+        public UserController(IAuthenticationService authenticationService, IAppGroupService groupService)
         {
             _authenticationService = authenticationService;
             _groupService = groupService;
@@ -23,20 +24,20 @@ namespace QuestOrAssess.UserIdentity.Api.Controllers
         public async Task<IActionResult> Login(string userName, string password)
         {
 
-            var app = new Application()
-            {
-                ApplicationKey = Guid.NewGuid(),
-                Description = "test App"
-            };
+            //var app = new Application()
+            //{
+            //    ApplicationKey = Guid.NewGuid(),
+            //    Description = "test App"
+            //};
 
-            var AppResulkt = _groupService.AddNewApplication(app);
+            //var AppResulkt = _groupService.AddNewApplication(app);
 
-            var result = await _authenticationService.Login(userName, password);
+            //var result = await _authenticationService.Login(userName, password);
 
-            if(result.Item1)
-                return Ok(new { token = result.Item2});
+            //if(result.Item1)
+            //    return Ok(new { token = result.Item2});
 
-            return BadRequest(result.Item2);
+            return BadRequest();
         }
 
         [HttpGet]
