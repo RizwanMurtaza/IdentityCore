@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuestOrAssess.UserIdentity.Core\UserIdentity.Core.csproj" />
-    <ProjectReference Include="..\QuestOrAssess.UserIdentity.Data\UserIdentity.Data.csproj" />
-    <ProjectReference Include="..\QuestOrAssess.UserIdentity.Services\UserIdentity.Services.csproj" />
+    <ProjectReference Include="..\UserIdentity.Core\UserIdentity.Core.csproj" />
+    <ProjectReference Include="..\UserIdentity.Data\UserIdentity.Data.csproj" />
+    <ProjectReference Include="..\UserIdentity.Services\UserIdentity.Services.csproj" />
   </ItemGroup>
 
 </Project>

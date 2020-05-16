@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuestOrAssess.UserIdentity.Core\UserIdentity.Core.csproj" />
+    <ProjectReference Include="..\UserIdentity.Core\UserIdentity.Core.csproj" />
   </ItemGroup>
 
 </Project>
