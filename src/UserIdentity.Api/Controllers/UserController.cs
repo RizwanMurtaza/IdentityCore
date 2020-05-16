@@ -1,47 +1,46 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using QuestOrAssess.UserIdentity.Core.Domain;
-using QuestOrAssess.UserIdentity.Services;
+using UserIdentity.Services.AppManagement;
+using UserIdentity.Services.Authentication;
 
 namespace UserIdentity.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
     public class UserController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IGroupService _groupService;
-
-        public UserController(IAuthenticationService authenticationService, IGroupService groupService)
+        private readonly IAppGroupService _groupService;
+        public UserController(IAuthenticationService authenticationService, IAppGroupService groupService)
         {
             _authenticationService = authenticationService;
             _groupService = groupService;
         }
 
 
-        [HttpPost("Authenticate")]
+        [HttpPost]
         public async Task<IActionResult> Login(string userName, string password)
         {
-            var app = new Application()
-            {
-                ApplicationKey = Guid.NewGuid(),
-                Description = "test App"
-            };
 
-            var AppResulkt = _groupService.AddNewApplication(app);
-            var result = await _authenticationService.Login(userName, password);
-            if(result.Item1)
-                return Ok(new { token = result.Item2});
+            //var app = new Application()
+            //{
+            //    ApplicationKey = Guid.NewGuid(),
+            //    Description = "test App"
+            //};
 
-            return BadRequest(result.Item2);
+            //var AppResulkt = _groupService.AddNewApplication(app);
+
+            //var result = await _authenticationService.Login(userName, password);
+
+            //if(result.Item1)
+            //    return Ok(new { token = result.Item2});
+
+            return BadRequest();
         }
 
         [HttpGet]
-        public string Get()
+        public async Task<IActionResult> Login()
         {
 
-            return "Hello there";
+            return Ok("Hello there");
         }
     }
 }
