@@ -1,45 +1,53 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserIdentity.Services.AppManagement;
-using UserIdentity.Services.Authentication;
+using UserIdentity.Services.UserManagement;
+using UserIdentity.ViewModels.Authentication.Login;
+using UserIdentity.ViewModels.UserManagement.Users;
 
 namespace UserIdentity.Api.Controllers
 {
-    public class UserController : Controller
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class UserController : BaseController
     {
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IAppGroupService _groupService;
-        public UserController(IAuthenticationService authenticationService, IAppGroupService groupService)
+        private readonly IUserServices _newUserServices;
+        public UserController(IUserServices newUserServices)
         {
-            _authenticationService = authenticationService;
-            _groupService = groupService;
+            _newUserServices = newUserServices;
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<CreateUserResponse> CreateNewUser(CreateUserRequest model)
+        {
+            return await _newUserServices.CreateAccount(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ForgotPasswordResponse> ForgotPassword([FromBody]ForgotPasswordRequest model)
+        {
+            return await _newUserServices.ForgotPassword(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(string userName, string password)
+        [Authorize]
+        public async Task<ChangePasswordResponse> ChangePassword([FromBody] ChangePasswordRequest model)
         {
-
-            //var app = new Application()
-            //{
-            //    ApplicationKey = Guid.NewGuid(),
-            //    Description = "test App"
-            //};
-
-            //var AppResulkt = _groupService.AddNewApplication(app);
-
-            //var result = await _authenticationService.Login(userName, password);
-
-            //if(result.Item1)
-            //    return Ok(new { token = result.Item2});
-
-            return BadRequest();
+            var user = BreachUser;
+            if (user == null)
+            {
+                return ChangePasswordResponse.Fail("Server error in changing password");
+            }
+            return await _newUserServices.ChangePassword(model, user.Email);
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-
             return Ok("Hello there");
         }
     }

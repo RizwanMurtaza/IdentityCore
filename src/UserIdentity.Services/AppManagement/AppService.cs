@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,16 @@ namespace UserIdentity.Services.AppManagement
         {
             _applicationRepository = applicationRepository;
         }
+
+        public async Task<ServiceResponse<Application>> GetApplicationByKey(string key)
+        {
+            Guid.TryParse(key, out var appKey);
+
+            var application = await _applicationRepository.Table.Where(x => x.ApplicationKey.Equals(appKey))
+                .ToListAsync();
+            return application.Any() ? new ServiceResponse<Application>().SuccessResponse(application.First()) : new ServiceResponse<Application>().SuccessWithNoResponse();
+        }
+
 
         public async Task<ServiceResponse<Application>> GetApplicationById(int id)
         {

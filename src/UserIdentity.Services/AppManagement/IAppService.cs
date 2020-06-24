@@ -9,6 +9,7 @@ namespace UserIdentity.Services.AppManagement
 {
     public interface IAppService
     {
+        Task<ServiceResponse<Application>> GetApplicationByKey(string key);
         Task<ServiceResponse<Application>> GetApplicationById(int id);
         Task<ServiceResponse<IEnumerable<AppGroup>>> GetApplicationGroups(int id);
         Task<ServiceResponse<IEnumerable<AppUser>>> GetApplicationUsers(int id);

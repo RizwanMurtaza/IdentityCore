@@ -79,10 +79,7 @@ namespace UserIdentity.Services.UserManagement
             var result = await _applicationUserManager.CreateAsync(user, password);
             if (!result.Succeeded)
                 return (false, result.Errors.Select(e => e.Description));
-
-
             user = await _applicationUserManager.FindByNameAsync(user.UserName);
-
             try
             {
                 result = await this._applicationUserManager.AddToRolesAsync(user, roles.Distinct());
@@ -92,7 +89,6 @@ namespace UserIdentity.Services.UserManagement
                 await DeleteUserAsync(user);
                 throw;
             }
-
             if (!result.Succeeded)
             {
                 await DeleteUserAsync(user);
@@ -100,6 +96,16 @@ namespace UserIdentity.Services.UserManagement
             }
 
             return (true, new List<string>());
+        }
+        public async Task<ServiceResponse<AppUser>> CreateUserAsync(AppUser user, string password)
+        {
+            var result = await _applicationUserManager.CreateAsync(user, password);
+            if (!result.Succeeded)
+                return new ServiceResponse<AppUser>().FailedResponse(result.Errors.ToString());
+            
+            user = await _applicationUserManager.FindByNameAsync(user.UserName);
+
+            return new ServiceResponse<AppUser>().SuccessResponse(user);
         }
 
 

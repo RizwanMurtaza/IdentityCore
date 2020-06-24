@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
+using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using UserIdentity.Core.Domain.Identity;
 using UserIdentity.Data;
 using UserIdentity.Data.Repository;
+using UserIdentity.Services.Authentication;
+using UserIdentity.Services.Email;
+using UserIdentity.Services.Jwt;
 
 namespace UserIdentity.Services
 {
@@ -38,9 +43,43 @@ namespace UserIdentity.Services
             }
 
             services.AddScoped(typeof(IDbRepositoryPattern<>), typeof(DbRepositoryPattern<>));
-            services.Configure<JwtOptions>(configuration.GetSection("jwt"));
-            services.AddIdentity<AppUser, AppPermission>().AddEntityFrameworkStores<QuestOrAssessIdentityDbContext>()
-                .AddUserManager<UserManager<AppUser>>();
+            
+            
+            
+            var key = Encoding.ASCII.GetBytes(configuration["jwtTokenSecret"]);
+            var audience = configuration["jwtAudience"];
+            var jwtExpiryInDays = int.Parse(configuration["jwtExpiryInDays"]);
+            services.AddTransient<IJwtTokenService>(a => new JwtTokenService(key, audience, a.GetService<IHttpContextAccessor>(), jwtExpiryInDays));
+            var breachApiUrl = configuration["BreachApi:Url"];
+            var breachApiEmail = configuration["BreachApi:Email"];
+            var breachApiPassword = configuration["BreachApi:Password"];
+           
+            if (configuration.GetSection("SendGrid").Exists())
+            {
+                var sendGridApiKey = configuration["SendGrid:ApiKey"];
+                var sendGridToOverride = configuration["SendGrid:ToOverride"];
+                services.AddTransient<IEmailService>(a => new EmailService(sendGridApiKey, sendGridToOverride));
+            }
+            else if (configuration.GetSection("SmtpServer").Exists())
+            {
+                var toOverride = configuration["SmtpServer:ToOverride"];
+                var ipAddress = configuration["SmtpServer:IpAddress"];
+                var username = configuration["SmtpServer:Username"];
+                var password = configuration["SmtpServer:Password"];
+                services.AddTransient<IEmailService>(a => new EmailService(ipAddress, username, password, toOverride));
+            }
+
+           //services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddIdentity<AppUser, AppPermission>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<QuestOrAssessIdentityDbContext>()
+                .AddUserManager<UserManager<AppUser>>().AddDefaultTokenProviders();
+
             Register(services);
             return services;
         }
@@ -50,10 +89,10 @@ namespace UserIdentity.Services
             var thisAssembly = Assembly.GetAssembly(typeof(UserIdentityServiceInjections));
             var namespaces = new[]
             {
-                "QuestOrAssess.UserIdentity.Services.AppManagement",
-                "QuestOrAssess.UserIdentity.Services.UserManagement",
-                "QuestOrAssess.UserIdentity.Services.Authentication",
-                "QuestOrAssess.UserIdentity.Services.DatabaseInit"
+                "UserIdentity.Services.AppManagement",
+                "UserIdentity.Services.UserManagement",
+                "UserIdentity.Services.DatabaseInit",
+                "UserIdentity.Services.Authentication"
             };
 
             if (thisAssembly == null) return;

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserIdentity.Core", "UserId
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService.Test", "IdentityService.Test\IdentityService.Test.csproj", "{2843D0DB-BBAF-4F51-994E-1A27DF2CEE06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserIdentity.ViewModels", "UserIdentity.ViewModels\UserIdentity.ViewModels.csproj", "{94294A87-1CE0-4467-A6BD-E022F390CD2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2843D0DB-BBAF-4F51-994E-1A27DF2CEE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2843D0DB-BBAF-4F51-994E-1A27DF2CEE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2843D0DB-BBAF-4F51-994E-1A27DF2CEE06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94294A87-1CE0-4467-A6BD-E022F390CD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94294A87-1CE0-4467-A6BD-E022F390CD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94294A87-1CE0-4467-A6BD-E022F390CD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94294A87-1CE0-4467-A6BD-E022F390CD2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

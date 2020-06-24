@@ -14,18 +14,20 @@ namespace UserIdentity.Services.AppManagement
    public class AppGroupService : IAppGroupService
    {
        private readonly IDbRepositoryPattern<AppGroup> _groupRepository;
-       private readonly RoleManager<AppPermission> _permissionManager;
+       private readonly IDbRepositoryPattern<GroupUser> _groupUserRepository;
+        private readonly RoleManager<AppPermission> _permissionManager;
        private readonly IDbRepositoryPattern<GroupPermission> _groupPermissionRepository;
        private readonly UserManager<AppUser> _applicationUserManager;
 
         public AppGroupService(IDbRepositoryPattern<AppGroup>group, 
             IDbRepositoryPattern<Application> applicationRepository, 
-            RoleManager<AppPermission> roleManager, IDbRepositoryPattern<GroupPermission> groupPermissionRepository, UserManager<AppUser> applicationUserManager)
+            RoleManager<AppPermission> roleManager, IDbRepositoryPattern<GroupPermission> groupPermissionRepository, UserManager<AppUser> applicationUserManager, IDbRepositoryPattern<GroupUser> groupUserRepository)
         {
             _groupRepository = group;
             _permissionManager = roleManager;
             _groupPermissionRepository = groupPermissionRepository;
             _applicationUserManager = applicationUserManager;
+            _groupUserRepository = groupUserRepository;
         }
        public async Task<OutResult> AddNewGroup(AppGroup group)
        {
@@ -36,6 +38,34 @@ namespace UserIdentity.Services.AppManagement
            var group = await GetById(id);
            return @group.Any() ? @group.First() : null;
        }
+       public async Task<List<AppGroup>> GetApplicationGroups(int applicationId)
+       {
+           var group = await _groupRepository.Table.Where(x => x.ApplicationId == applicationId).ToListAsync();
+           return group;
+           
+       }
+
+        public async Task<List<AppGroup>> GetGroupByName(string name)
+       {
+          return await _groupRepository.Table.Where(x=>x.Name.ToLower().Equals(name.ToLower())).ToListAsync();
+       }
+       public async Task<List<AppGroup>> GetGroupByName(List<string> names)
+       {
+           return await _groupRepository.Table.Where(x =>names.Contains(x.Name.ToLower())).ToListAsync();
+       }
+
+       public async Task<OutResult> AddUserToGroup(AppUser user , AppGroup group)
+       {
+           var groupUser = new GroupUser()
+           {
+               UserId = user.Id,
+               GroupId = group.Id,
+               User = user,
+               Group = group
+           };
+           return await _groupUserRepository.Insert(groupUser);
+       }
+        
        public async Task<ServiceResponse<IEnumerable<AppPermission>>> GetGroupPermissions(int id)
        {
            var group = await GetById(id);

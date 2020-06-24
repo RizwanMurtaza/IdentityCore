@@ -15,6 +15,7 @@ namespace UserIdentity.Services.UserManagement
         Task<IList<string>> GetUserRolesAsync(AppUser user);
         Task<(AppUser User, IEnumerable<string> Roles)?> GetUserAndRolesAsync(int userId);
         Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(AppUser user, IEnumerable<string> roles, string password);
+        Task<ServiceResponse<AppUser>> CreateUserAsync(AppUser user, string password);
         Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(AppUser user);
         Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(AppUser user, IEnumerable<string> roles);
         Task<(bool Succeeded, IEnumerable<string> Errors)> ResetPasswordAsync(AppUser user, string newPassword);
