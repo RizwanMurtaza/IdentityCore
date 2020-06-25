@@ -11,11 +11,11 @@ namespace UserIdentity.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly UserManager<AppUser> _applicationUserManager;
+        private readonly SignInManager<MclAppUser> _signInManager;
+        private readonly UserManager<MclAppUser> _applicationUserManager;
         private readonly IJwtTokenService _jwtTokenService;
-        public AuthenticationService(SignInManager<AppUser> signInManager,
-                                    UserManager<AppUser> applicationUserManager, IJwtTokenService jwtTokenService)
+        public AuthenticationService(SignInManager<MclAppUser> signInManager,
+                                    UserManager<MclAppUser> applicationUserManager, IJwtTokenService jwtTokenService)
         {
             _signInManager = signInManager;
             _applicationUserManager = applicationUserManager;
@@ -81,7 +81,7 @@ namespace UserIdentity.Services.Authentication
             await _signInManager.SignOutAsync();
             return true;
         }
-        private static ResponseUser GetResponseUser(AppUser user, string token )
+        private static ResponseUser GetResponseUser(MclAppUser user, string token )
         {
             return new ResponseUser
             {

@@ -8,7 +8,7 @@ namespace MclApp.Services
 {
     public static class DatabaseInitializer
     {
-        public static bool EnsureDatabaseIsSeeded(this IApplicationBuilder applicationBuilder, bool autoMigrateDatabase)
+        public static bool EnsureMclAppIsSeeded(this IApplicationBuilder applicationBuilder, bool autoMigrateDatabase)
         {
             var serviceScopes = applicationBuilder.ApplicationServices
                 .GetRequiredService<IServiceScopeFactory>().CreateScope();

@@ -13,15 +13,15 @@ namespace UserIdentity.Services.AppManagement
 {
    public class AppGroupService : IAppGroupService
    {
-       private readonly IIdentityDbRepository<AppGroup> _groupRepository;
-       private readonly IIdentityDbRepository<GroupUser> _groupUserRepository;
-        private readonly RoleManager<AppPermission> _permissionManager;
-       private readonly IIdentityDbRepository<GroupPermission> _groupPermissionRepository;
-       private readonly UserManager<AppUser> _applicationUserManager;
+       private readonly IIdentityDbRepository<MclAppGroup> _groupRepository;
+       private readonly IIdentityDbRepository<MclGroupUser> _groupUserRepository;
+        private readonly RoleManager<MclAppPermission> _permissionManager;
+       private readonly IIdentityDbRepository<MclGroupPermission> _groupPermissionRepository;
+       private readonly UserManager<MclAppUser> _applicationUserManager;
 
-        public AppGroupService(IIdentityDbRepository<AppGroup>group, 
-            IIdentityDbRepository<Application> applicationRepository, 
-            RoleManager<AppPermission> roleManager, IIdentityDbRepository<GroupPermission> groupPermissionRepository, UserManager<AppUser> applicationUserManager, IIdentityDbRepository<GroupUser> groupUserRepository)
+        public AppGroupService(IIdentityDbRepository<MclAppGroup>group, 
+            IIdentityDbRepository<MclApplication> applicationRepository, 
+            RoleManager<MclAppPermission> roleManager, IIdentityDbRepository<MclGroupPermission> groupPermissionRepository, UserManager<MclAppUser> applicationUserManager, IIdentityDbRepository<MclGroupUser> groupUserRepository)
         {
             _groupRepository = group;
             _permissionManager = roleManager;
@@ -29,34 +29,34 @@ namespace UserIdentity.Services.AppManagement
             _applicationUserManager = applicationUserManager;
             _groupUserRepository = groupUserRepository;
         }
-       public async Task<OutResult> AddNewGroup(AppGroup group)
+       public async Task<OutResult> AddNewGroup(MclAppGroup group)
        {
            return await _groupRepository.Insert(group);
        }
-       public async Task<AppGroup> GetGroupById(int id)
+       public async Task<MclAppGroup> GetGroupById(int id)
        {
            var group = await GetById(id);
            return @group.Any() ? @group.First() : null;
        }
-       public async Task<List<AppGroup>> GetApplicationGroups(int applicationId)
+       public async Task<List<MclAppGroup>> GetApplicationGroups(int applicationId)
        {
            var group = await _groupRepository.Table.Where(x => x.ApplicationId == applicationId).ToListAsync();
            return group;
            
        }
 
-        public async Task<List<AppGroup>> GetGroupByName(string name)
+        public async Task<List<MclAppGroup>> GetGroupByName(string name)
        {
           return await _groupRepository.Table.Where(x=>x.Name.ToLower().Equals(name.ToLower())).ToListAsync();
        }
-       public async Task<List<AppGroup>> GetGroupByName(List<string> names)
+       public async Task<List<MclAppGroup>> GetGroupByName(List<string> names)
        {
            return await _groupRepository.Table.Where(x =>names.Contains(x.Name.ToLower())).ToListAsync();
        }
 
-       public async Task<OutResult> AddUserToGroup(AppUser user , AppGroup group)
+       public async Task<OutResult> AddUserToGroup(MclAppUser user , MclAppGroup group)
        {
-           var groupUser = new GroupUser()
+           var groupUser = new MclGroupUser()
            {
                UserId = user.Id,
                GroupId = group.Id,
@@ -66,31 +66,31 @@ namespace UserIdentity.Services.AppManagement
            return await _groupUserRepository.Insert(groupUser);
        }
         
-       public async Task<ServiceResponse<IEnumerable<AppPermission>>> GetGroupPermissions(int id)
+       public async Task<ServiceResponse<IEnumerable<MclAppPermission>>> GetGroupPermissions(int id)
        {
            var group = await GetById(id);
             if (!@group.Any()) 
-               return new ServiceResponse<IEnumerable<AppPermission>>().SuccessWithNoResponse();
+               return new ServiceResponse<IEnumerable<MclAppPermission>>().SuccessWithNoResponse();
            var singleGroup = @group.First();
            if (singleGroup.GroupPermissions.Any())
            {
-               return new ServiceResponse<IEnumerable<AppPermission>>().SuccessResponse(
+               return new ServiceResponse<IEnumerable<MclAppPermission>>().SuccessResponse(
                    singleGroup.GroupPermissions.Select(x => x.Permission));
            }
-           return new ServiceResponse<IEnumerable<AppPermission>>().SuccessWithNoResponse();
+           return new ServiceResponse<IEnumerable<MclAppPermission>>().SuccessWithNoResponse();
        }
-       public async Task<ServiceResponse<IEnumerable<AppUser>>> GetGroupUsers(int id)
+       public async Task<ServiceResponse<IEnumerable<MclAppUser>>> GetGroupUsers(int id)
        {
            var group = await GetById(id);
            if (!@group.Any())
-               return new ServiceResponse<IEnumerable<AppUser>>().SuccessWithNoResponse();
+               return new ServiceResponse<IEnumerable<MclAppUser>>().SuccessWithNoResponse();
            var singleGroup = @group.First();
            if (singleGroup.UsersInGroup.Any())
            {
-               return new ServiceResponse<IEnumerable<AppUser>>().SuccessResponse(
+               return new ServiceResponse<IEnumerable<MclAppUser>>().SuccessResponse(
                    singleGroup.UsersInGroup.Select(x => x.User));
            }
-           return new ServiceResponse<IEnumerable<AppUser>>().SuccessWithNoResponse();
+           return new ServiceResponse<IEnumerable<MclAppUser>>().SuccessWithNoResponse();
        }
 
        public async Task<OutResult> AddPermissionToGroup(int groupId, int permissionId)
@@ -109,7 +109,7 @@ namespace UserIdentity.Services.AppManagement
            var groupToAdd = group.First();
            var permissionToAdd = permission.First();
            
-           var groupPermission = new GroupPermission()
+           var groupPermission = new MclGroupPermission()
            {
                Group = groupToAdd,
                Permission = permissionToAdd,
@@ -149,7 +149,7 @@ namespace UserIdentity.Services.AppManagement
            var groupToAdd = group.First();
            var permissionToAdd = permission.First();
 
-           var groupPermission = new GroupPermission()
+           var groupPermission = new MclGroupPermission()
            {
                Group = groupToAdd,
                Permission = permissionToAdd,
@@ -171,7 +171,7 @@ namespace UserIdentity.Services.AppManagement
            return OutResult.Success_Updated();
 
        }
-        private async Task<List<AppGroup>> GetById(int id)
+        private async Task<List<MclAppGroup>> GetById(int id)
        {
            return await _groupRepository.Table.Where(x => x.Id == id).ToListAsync();
        }

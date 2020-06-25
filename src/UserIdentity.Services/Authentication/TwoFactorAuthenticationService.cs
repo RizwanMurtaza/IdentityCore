@@ -10,12 +10,12 @@ namespace UserIdentity.Services.Authentication
 {
     public class TwoFactorAuthenticationService : ITwoFactorAuthenticationService
     {
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly UserManager<AppUser> _applicationUserManager;
+        private readonly SignInManager<MclAppUser> _signInManager;
+        private readonly UserManager<MclAppUser> _applicationUserManager;
         private readonly UrlEncoder _urlEncoder;
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
-        public TwoFactorAuthenticationService(SignInManager<AppUser> signInManager, UserManager<AppUser> applicationUserManager, UrlEncoder urlEncoder)
+        public TwoFactorAuthenticationService(SignInManager<MclAppUser> signInManager, UserManager<MclAppUser> applicationUserManager, UrlEncoder urlEncoder)
         {
             _signInManager = signInManager;
             _applicationUserManager = applicationUserManager;
@@ -98,7 +98,7 @@ namespace UserIdentity.Services.Authentication
             return returnModel;
         }
 
-        private async Task LoadSharedKeyAndQrCodeUriAsync(AppUser user, AuthenticatorViewModel model)
+        private async Task LoadSharedKeyAndQrCodeUriAsync(MclAppUser user, AuthenticatorViewModel model)
         {
             var unformattedKey = await _applicationUserManager.GetAuthenticatorKeyAsync(user);
             if (string.IsNullOrEmpty(unformattedKey))

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace UserIdentity.Data.Mappings
 {
-    public partial class UserPermissionMap : IEntityTypeConfiguration<AppUserPermission>
+    public partial class UserPermissionMap : IEntityTypeConfiguration<MclAppUserPermission>
     {
-        public void Configure(EntityTypeBuilder<AppUserPermission> builder)
+        public void Configure(EntityTypeBuilder<MclAppUserPermission> builder)
         {
-            builder.ToTable("UserPermissions");
+            builder.ToTable("MclUserPermissions");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.RoleId).HasColumnName("PermissionId");
 

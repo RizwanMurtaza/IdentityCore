@@ -5,7 +5,7 @@ namespace UserIdentity.Services.Helper
 {
     public static class HelperService
     {
-        public static TokenBreachUser ToUser(AppUser user)
+        public static TokenBreachUser ToUser(MclAppUser user)
         {
             return new TokenBreachUser
             {

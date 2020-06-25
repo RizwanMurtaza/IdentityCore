@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace UserIdentity.Data.Mappings
 {
-    public partial class AppGroupMap : IEntityTypeConfiguration<AppGroup>
+    public partial class AppGroupMap : IEntityTypeConfiguration<MclAppGroup>
     {
-        public void Configure(EntityTypeBuilder<AppGroup> builder)
+        public void Configure(EntityTypeBuilder<MclAppGroup> builder)
         {
-            builder.ToTable("AppGroups");
+            builder.ToTable("MclAppGroups");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.ApplicationId).IsRequired();
 

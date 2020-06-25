@@ -9,14 +9,14 @@ namespace UserIdentity.Services.AppManagement
 {
     public interface IAppService
     {
-        Task<ServiceResponse<Application>> GetApplicationByKey(string key);
-        Task<ServiceResponse<Application>> GetApplicationById(int id);
-        Task<ServiceResponse<IEnumerable<AppGroup>>> GetApplicationGroups(int id);
-        Task<ServiceResponse<IEnumerable<AppUser>>> GetApplicationUsers(int id);
-        Task<OutResult> AddApplication(Application app);
-        Task<OutResult> UpdateApplication(Application app);
+        Task<ServiceResponse<MclApplication>> GetApplicationByKey(string key);
+        Task<ServiceResponse<MclApplication>> GetApplicationById(int id);
+        Task<ServiceResponse<IEnumerable<MclAppGroup>>> GetApplicationGroups(int id);
+        Task<ServiceResponse<IEnumerable<MclAppUser>>> GetApplicationUsers(int id);
+        Task<OutResult> AddApplication(MclApplication app);
+        Task<OutResult> UpdateApplication(MclApplication app);
         Task<OutResult> DeleteApplication(int id);
-        Task<ServiceResponse<Application>> GetApplicationByName(string name);
+        Task<ServiceResponse<MclApplication>> GetApplicationByName(string name);
 
     }
 }

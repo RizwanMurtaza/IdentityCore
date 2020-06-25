@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UserIdentity.Data
 {
-    public sealed class IdentityDbContext : IdentityDbContext<AppUser, AppPermission, int,
-                                                    IdentityUserClaim<int>, AppUserPermission, LoginDetails, 
+    public sealed class IdentityDbContext : IdentityDbContext<MclAppUser, MclAppPermission, int,
+                                                    IdentityUserClaim<int>, MclAppUserPermission, LoginDetails, 
                                                     IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public int CurrentUserId { get; set; }

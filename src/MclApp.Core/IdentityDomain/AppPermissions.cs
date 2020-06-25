@@ -1,6 +1,6 @@
 ﻿namespace MclApp.Core.IdentityDomain
 {
-    public enum AppPermissions
+    public enum MclAppPermissions
     {
         CanView =1,
         CanAdd=2,

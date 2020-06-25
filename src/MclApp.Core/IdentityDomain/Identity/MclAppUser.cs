@@ -5,13 +5,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MclApp.Core.IdentityDomain.Identity
 {
-    public class AppUser: IdentityUser<int> , IAuditableEntity
+    public class MclAppUser: IdentityUser<int> , IAuditableEntity
     {
 
-        public int ApplicationId { get; set; }
-
+        public int MclApplicationId { get; set; }
+        public Guid MclUserId { get; set; }
         public string FirstName { get; set; }
-
         public string LastName { get; set; }
 
         public string FullName => string.Concat(FirstName, " ", LastName);
@@ -26,10 +25,10 @@ namespace MclApp.Core.IdentityDomain.Identity
         
         public bool IsPrimary { get; set; }
 
-        public virtual ICollection<AppUserPermission> Permission { get; set; }
+        public virtual ICollection<MclAppUserPermission> Permission { get; set; }
 
-        public virtual ICollection<GroupUser> Groups { get; set; }
-        public virtual Application Application { get; set; }
+        public virtual ICollection<MclGroupUser> Groups { get; set; }
+        public virtual MclApplication Application { get; set; }
 
 
         public string CreatedBy { get; set; }

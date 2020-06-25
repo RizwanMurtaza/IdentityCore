@@ -16,12 +16,12 @@ namespace UserIdentity.Services.UserManagement
     public class UserServices : IUserServices
     {
         private readonly IEmailService _emailService;
-        private readonly UserManager<AppUser> _applicationUserManager;
+        private readonly UserManager<MclAppUser> _applicationUserManager;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IAppGroupService _groupService;
         private readonly IAppService _appService;
 
-		public UserServices(UserManager<AppUser> applicationUserManager, IHostingEnvironment hostingEnvironment, IEmailService emailService, IAppGroupService groupService, IAppService appService)
+		public UserServices(UserManager<MclAppUser> applicationUserManager, IHostingEnvironment hostingEnvironment, IEmailService emailService, IAppGroupService groupService, IAppService appService)
         {
             _applicationUserManager = applicationUserManager;
             _hostingEnvironment = hostingEnvironment;
@@ -41,16 +41,17 @@ namespace UserIdentity.Services.UserManagement
             if (user == null)
             {
                 
-				user = new AppUser()
+				user = new MclAppUser()
 				{
 					Email = request.Username,
 					UserName = request.Username,
 					FirstName = request.FirstName,
 					LastName = request.LastName,
 					PhoneNumber = request.PhoneNumber,
-                    ApplicationId = appId.Object.Id,
+                    MclApplicationId = appId.Object.Id,
                     LockoutEnabled = true,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    MclUserId = Guid.NewGuid()
 				};
 				var identityResult = await _applicationUserManager.CreateAsync(user,request.Password);
 

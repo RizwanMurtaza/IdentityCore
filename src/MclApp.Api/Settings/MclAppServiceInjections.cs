@@ -66,29 +66,6 @@ namespace MclApp.Api.Settings
                 }
             }
         }
-        public static void Register(IServiceCollection services)
-        {
-            var thisAssembly = Assembly.GetAssembly(typeof(MclAppServiceInjections));
-            var namespaces = new[]
-            {
-                "UserIdentity.Services.AppManagement",
-                "UserIdentity.Services.UserManagement",
-                "UserIdentity.Services.DatabaseInit",
-                "UserIdentity.Services.Authentication"
-            };
-
-            if (thisAssembly == null) return;
-            var typesToRegister = thisAssembly.GetTypes().Where(x => namespaces.Contains(x.Namespace)).ToList();
-
-            foreach (var typeToRegister in typesToRegister)
-            {
-                var typeInterfaces = typeToRegister.GetInterfaces();
-
-                foreach (var typesInterface in typeInterfaces)
-                {
-                    services.AddScoped(typesInterface, typeToRegister);
-                }
-            }
-        }
+       
     }
 }

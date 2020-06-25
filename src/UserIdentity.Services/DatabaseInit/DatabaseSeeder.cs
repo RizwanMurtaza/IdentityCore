@@ -57,7 +57,7 @@ namespace UserIdentity.Services.DatabaseInit
         }
         private async Task<bool> InitializeApplication()
         {
-            var app = new Application()
+            var app = new MclApplication()
             {
                 ApplicationKey = Guid.NewGuid(),
                 Description = DefaultApplication,
@@ -73,19 +73,19 @@ namespace UserIdentity.Services.DatabaseInit
             {
                 return false;
             }
-            var superAdmin = new AppGroup()
+            var superAdmin = new MclAppGroup()
             {
                 Name = SystemDefaultGroups.SuperAdmin.ToString(),
                 Description = "Group Super Admin",
                 ApplicationId = app.Object.Id
             };
-            var admin = new AppGroup()
+            var admin = new MclAppGroup()
             {
                 Name = SystemDefaultGroups.Admin.ToString(),
                 Description = "Group for Admin",
                 ApplicationId = app.Object.Id
             };
-            var viewer = new AppGroup()
+            var viewer = new MclAppGroup()
             {
                 Name = SystemDefaultGroups.DefaultUser.ToString(),
                 Description = "Group for Viewer",
@@ -98,16 +98,16 @@ namespace UserIdentity.Services.DatabaseInit
             
             return true;
         }
-        private async Task<List<AppUser>> InitializeUsers()
+        private async Task<List<MclAppUser>> InitializeUsers()
         {
 
             var app = await _appService.GetApplicationByName(DefaultApplication);
             if (!app.HasData)
             {
-             return new List<AppUser>();
+             return new List<MclAppUser>();
             }
             
-            var fakeUsers = new Faker<AppUser>()
+            var fakeUsers = new Faker<MclAppUser>()
                 .RuleFor(o => o.UpdatedAt, f => f.Date.Recent(100))
                 .RuleFor(o => o.PhoneNumber, f => f.Person.Phone)
                 .RuleFor(o => o.FirstName, f => f.Name.FirstName())
@@ -115,14 +115,15 @@ namespace UserIdentity.Services.DatabaseInit
                 .RuleFor(o => o.EmailConfirmed, true)
                 .RuleFor(o => o.ActiveLanguageId, 2)
              
-                .RuleFor(o => o.ApplicationId, app.Object.Id)
+                .RuleFor(o => o.MclApplicationId, app.Object.Id)
+                .RuleFor(o => o.MclUserId, Guid.NewGuid)
                 .RuleFor(o => o.Application, app.Object)
                 .RuleFor(o => o.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
                 .RuleFor(o => o.UserName, (f, usr) => usr.Email)
                 .RuleFor(o => o.IsActive, f => true);
 
             var users = fakeUsers.Generate(20);
-            var createdUsers = new List<AppUser>();
+            var createdUsers = new List<MclAppUser>();
             foreach (var appUser in users)
             {
                // appUser.Group = new List<string>();
@@ -157,7 +158,7 @@ namespace UserIdentity.Services.DatabaseInit
 
         private async Task<bool> InitializePermissions()
         {
-            foreach (var permissionName in Enum.GetNames(typeof(AppPermissions)))
+            foreach (var permissionName in Enum.GetNames(typeof(MclAppPermissions)))
             {
                 await _permissionService.AddPermission(permissionName, permissionName);
             }

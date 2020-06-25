@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace UserIdentity.Data.Mappings
 {
-    public partial class AppUserMap : IEntityTypeConfiguration<AppUser> 
+    public partial class AppUserMap : IEntityTypeConfiguration<MclAppUser> 
     {
-        public void Configure(EntityTypeBuilder<AppUser> builder)
+        public void Configure(EntityTypeBuilder<MclAppUser> builder)
         {
-            builder.ToTable("AppUsers");
+            builder.ToTable("MclAppUsers");
             builder.HasKey(x => x.Id);
         }
     }

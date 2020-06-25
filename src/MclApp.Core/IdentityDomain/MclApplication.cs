@@ -5,7 +5,7 @@ using MclApp.Core.IdentityDomain.Identity;
 
 namespace MclApp.Core.IdentityDomain
 {
-    public class Application : IAuditableEntity
+    public class MclApplication : IAuditableEntity
     {
         public int Id { get; set; }
         public Guid ApplicationKey { get; set; }
@@ -15,7 +15,7 @@ namespace MclApp.Core.IdentityDomain
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
        
-        public ICollection<AppGroup> ApplicationGroup { get; set; }
-        public ICollection<AppUser> AppUsers { get; set; }
+        public ICollection<MclAppGroup> ApplicationGroup { get; set; }
+        public ICollection<MclAppUser> AppUsers { get; set; }
     }
 }

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace UserIdentity.Data.Mappings
 {
-    public partial class GroupPermissionMap : IEntityTypeConfiguration<GroupPermission>
+    public partial class GroupPermissionMap : IEntityTypeConfiguration<MclGroupPermission>
     {
-        public void Configure(EntityTypeBuilder<GroupPermission> builder)
+        public void Configure(EntityTypeBuilder<MclGroupPermission> builder)
         {
-            builder.ToTable("GroupPermissions");
+            builder.ToTable("MclGroupPermissions");
             builder.HasKey(x => x.Id);
 
 

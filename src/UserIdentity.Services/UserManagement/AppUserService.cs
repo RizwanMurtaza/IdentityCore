@@ -12,10 +12,10 @@ namespace UserIdentity.Services.UserManagement
 {
     public class AppUserService : IAppUserService
     {
-        private readonly UserManager<AppUser> _applicationUserManager;
+        private readonly UserManager<MclAppUser> _applicationUserManager;
         private readonly IdentityDbContext _dbContext;
 
-        public AppUserService(UserManager<AppUser> applicationUserManager,
+        public AppUserService(UserManager<MclAppUser> applicationUserManager,
                                     IdentityDbContext dbContext,
                                     IHttpContextAccessor httpAccessor)
         {
@@ -23,38 +23,38 @@ namespace UserIdentity.Services.UserManagement
             _dbContext = dbContext;
         }
 
-        public Task<AppUser> GetUser(int id)
+        public Task<MclAppUser> GetUser(int id)
         {
             return _applicationUserManager.FindByIdAsync(id.ToString());
         }
-        public async Task<AppUser> GetUserByIdAsync(string userId)
+        public async Task<MclAppUser> GetUserByIdAsync(string userId)
         {
             return await _applicationUserManager.FindByIdAsync(userId);
         }
 
-        public async Task<AppUser> GetUserByUserNameAsync(string userName)
+        public async Task<MclAppUser> GetUserByUserNameAsync(string userName)
         {
             return await _applicationUserManager.FindByNameAsync(userName);
         }
 
-        public async Task<AppUser> GetUserByEmailAsync(string email)
+        public async Task<MclAppUser> GetUserByEmailAsync(string email)
         {
             return await _applicationUserManager.FindByEmailAsync(email);
         }
 
-        public async Task<ServiceResponse<AppUser>> AddUserAsync(AppUser user)
+        public async Task<ServiceResponse<MclAppUser>> AddUserAsync(MclAppUser user)
         {
             var result =  await _applicationUserManager.CreateAsync(user);
-            if (!result.Succeeded) return new ServiceResponse<AppUser>().FailedResponse("failed to create user");
+            if (!result.Succeeded) return new ServiceResponse<MclAppUser>().FailedResponse("failed to create user");
             var createdUser = await _applicationUserManager.FindByEmailAsync(user.Email);
-            return new ServiceResponse<AppUser>().SuccessResponse(createdUser);
+            return new ServiceResponse<MclAppUser>().SuccessResponse(createdUser);
         }
-        public async Task<IList<string>> GetUserRolesAsync(AppUser user)
+        public async Task<IList<string>> GetUserRolesAsync(MclAppUser user)
         {
             return await _applicationUserManager.GetRolesAsync(user);
         }
 
-        public async Task<(AppUser User, IEnumerable<string> Roles)?> GetUserAndRolesAsync(int userId)
+        public async Task<(MclAppUser User, IEnumerable<string> Roles)?> GetUserAndRolesAsync(int userId)
         {
             var user = await _dbContext.Users
                 .Include(u => u.Permission)
@@ -74,7 +74,7 @@ namespace UserIdentity.Services.UserManagement
             return (user, roles);
         }
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(AppUser user, IEnumerable<string> roles, string password)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(MclAppUser user, IEnumerable<string> roles, string password)
         {
             var result = await _applicationUserManager.CreateAsync(user, password);
             if (!result.Succeeded)
@@ -97,25 +97,25 @@ namespace UserIdentity.Services.UserManagement
 
             return (true, new List<string>());
         }
-        public async Task<ServiceResponse<AppUser>> CreateUserAsync(AppUser user, string password)
+        public async Task<ServiceResponse<MclAppUser>> CreateUserAsync(MclAppUser user, string password)
         {
             var result = await _applicationUserManager.CreateAsync(user, password);
             if (!result.Succeeded)
-                return new ServiceResponse<AppUser>().FailedResponse(result.Errors.ToString());
+                return new ServiceResponse<MclAppUser>().FailedResponse(result.Errors.ToString());
             
             user = await _applicationUserManager.FindByNameAsync(user.UserName);
 
-            return new ServiceResponse<AppUser>().SuccessResponse(user);
+            return new ServiceResponse<MclAppUser>().SuccessResponse(user);
         }
 
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(AppUser user)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(MclAppUser user)
         {
             return await UpdateUserAsync(user, null);
         }
 
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(AppUser user, IEnumerable<string> roles)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(MclAppUser user, IEnumerable<string> roles)
         {
             var result = await _applicationUserManager.UpdateAsync(user);
             if (!result.Succeeded)
@@ -148,7 +148,7 @@ namespace UserIdentity.Services.UserManagement
         }
 
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> ResetPasswordAsync(AppUser user, string newPassword)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> ResetPasswordAsync(MclAppUser user, string newPassword)
         {
             var resetToken = await _applicationUserManager.GeneratePasswordResetTokenAsync(user);
 
@@ -159,7 +159,7 @@ namespace UserIdentity.Services.UserManagement
             return (true, new string[] { });
         }
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdatePasswordAsync(AppUser user, string currentPassword, string newPassword)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdatePasswordAsync(MclAppUser user, string currentPassword, string newPassword)
         {
             var result = await _applicationUserManager.ChangePasswordAsync(user, currentPassword, newPassword);
             if (!result.Succeeded)
@@ -168,7 +168,7 @@ namespace UserIdentity.Services.UserManagement
             return (true, new string[] { });
         }
 
-        public async Task<bool> CheckPasswordAsync(AppUser user, string password)
+        public async Task<bool> CheckPasswordAsync(MclAppUser user, string password)
         {
             if (!await _applicationUserManager.CheckPasswordAsync(user, password))
             {
@@ -191,7 +191,7 @@ namespace UserIdentity.Services.UserManagement
         }
 
 
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> DeleteUserAsync(AppUser user)
+        public async Task<(bool Succeeded, IEnumerable<string> Errors)> DeleteUserAsync(MclAppUser user)
         {
             var result = await _applicationUserManager.DeleteAsync(user);
             return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());

@@ -71,8 +71,10 @@ namespace MclApp.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.EnsureIdentityIsSeeded(true);
-                app.EnsureMclAppIsInitialized(false);
+                if (app.EnsureIdentityIsSeeded(true))
+                {
+                    app.EnsureMclAppIsSeeded(true);
+                }
             }
             else
             {

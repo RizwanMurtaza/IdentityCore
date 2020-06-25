@@ -9,10 +9,10 @@ namespace UserIdentity.Services.AppManagement
 {
     public class AppPermissionService : IAppPermissionService
     {
-        private readonly RoleManager<AppPermission> _permissionManager;
-        private readonly UserManager<AppUser> _applicationUserManager;
+        private readonly RoleManager<MclAppPermission> _permissionManager;
+        private readonly UserManager<MclAppUser> _applicationUserManager;
         private readonly IAppGroupService _groupService;
-        public AppPermissionService(RoleManager<AppPermission> permissionManager, UserManager<AppUser> applicationUserManager, IAppGroupService groupService)
+        public AppPermissionService(RoleManager<MclAppPermission> permissionManager, UserManager<MclAppUser> applicationUserManager, IAppGroupService groupService)
         {
             _permissionManager = permissionManager;
             _applicationUserManager = applicationUserManager;
@@ -26,7 +26,7 @@ namespace UserIdentity.Services.AppManagement
             {
                 return OutResult.Error_AlreadyExists();
             }
-            var newPermission = new AppPermission()
+            var newPermission = new MclAppPermission()
             {
                 Name = name,
                 Description = description,

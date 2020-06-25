@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MclApp.Core.IdentityDomain.Identity
 {
-    public class AppPermission : IdentityRole<int> , IAuditableEntity
+    public class MclAppPermission : IdentityRole<int> , IAuditableEntity
     {
-        public int ApplicationId { get; set; }
+        public int MclApplicationId { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
-        public virtual ICollection<GroupPermission> GroupPermissions { get; set; }
-        public virtual ICollection<AppUserPermission> UserPermissions { get; set; }
+        public virtual ICollection<MclGroupPermission> GroupPermissions { get; set; }
+        public virtual ICollection<MclAppUserPermission> UserPermissions { get; set; }
         //public virtual ICollection<User> Users { get; set; }
 
         public string CreatedBy { get; set; }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UserIdentity.Data;
 using UserIdentity.Data.Repository;
+using UserIdentity.Services;
 using UserIdentity.Services.Email;
 using UserIdentity.Services.Jwt;
 
@@ -22,7 +23,7 @@ namespace MclApp.Api.Settings
             var assemblyName = typeof(IdentityDbContext).Assembly.GetName().Name;
             if (useSqlServer)
             {
-                var dbConnectionString = configuration.GetConnectionString("SqlServerConnectionString");
+                var dbConnectionString = configuration.GetConnectionString("BreachAppConnection");
                 services.AddDbContext<IdentityDbContext>(options =>
                     options.UseSqlServer(dbConnectionString,
                         optionsBuilder =>
@@ -69,7 +70,7 @@ namespace MclApp.Api.Settings
             }
 
            //services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddIdentity<AppUser, AppPermission>(options =>
+            services.AddIdentity<MclAppUser, MclAppPermission>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireLowercase = false;
@@ -77,7 +78,7 @@ namespace MclApp.Api.Settings
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<IdentityDbContext>()
-                .AddUserManager<UserManager<AppUser>>().AddDefaultTokenProviders();
+                .AddUserManager<UserManager<MclAppUser>>().AddDefaultTokenProviders();
 
             Register(services);
             return services;
@@ -85,7 +86,7 @@ namespace MclApp.Api.Settings
 
         public static void Register(IServiceCollection services)
         {
-            var thisAssembly = Assembly.GetAssembly(typeof(UserIdentityServiceInjections));
+            var thisAssembly = Assembly.GetAssembly(typeof(DatabaseInitializer));
             var namespaces = new[]
             {
                 "UserIdentity.Services.AppManagement",

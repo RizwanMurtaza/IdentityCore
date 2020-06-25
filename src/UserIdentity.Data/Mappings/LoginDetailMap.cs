@@ -8,7 +8,7 @@ namespace UserIdentity.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<LoginDetails> builder)
         {
-            builder.ToTable("LoginDetail");
+            builder.ToTable("MclLoginDetail");
             //builder.Property(x => x.LoginProvider).HasMaxLength(760);
         }
     }
