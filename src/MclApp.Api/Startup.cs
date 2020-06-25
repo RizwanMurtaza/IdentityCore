@@ -58,8 +58,6 @@ namespace MclApp.Api
                         );
             });
             services.AddUserIdentityServices(Configuration);
-
-
             //services.AddAutoMapper(assembly[])
             services.AddMclAppServiceInjections(Configuration);
             
