@@ -14,7 +14,7 @@ namespace UserIdentity.Services
                 .GetRequiredService<IServiceScopeFactory>().CreateScope();
 
             var seedService = serviceScopes.ServiceProvider.GetService<IDatabaseSeeder>();
-            var context = serviceScopes.ServiceProvider.GetService<QuestOrAssessIdentityDbContext>();
+            var context = serviceScopes.ServiceProvider.GetService<IdentityDbContext>();
             if (autoMigrateDatabase)
             {
                 context.Database.Migrate();

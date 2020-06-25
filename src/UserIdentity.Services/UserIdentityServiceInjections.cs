@@ -19,11 +19,11 @@ namespace UserIdentity.Services
         public static IServiceCollection AddUserIdentityServices(this IServiceCollection services,
             IConfiguration configuration, bool useSqlServer = true)
         {
-            var assemblyName = typeof(QuestOrAssessIdentityDbContext).Assembly.GetName().Name;
+            var assemblyName = typeof(IdentityDbContext).Assembly.GetName().Name;
             if (useSqlServer)
             {
                 var dbConnectionString = configuration.GetConnectionString("SqlServerConnectionString");
-                services.AddDbContext<QuestOrAssessIdentityDbContext>(options =>
+                services.AddDbContext<IdentityDbContext>(options =>
                     options.UseSqlServer(dbConnectionString,
                         optionsBuilder =>
                             optionsBuilder.MigrationsAssembly(assemblyName)
@@ -32,7 +32,7 @@ namespace UserIdentity.Services
             else
             {
                 var dbConnectionString = configuration.GetConnectionString("MySqlServerConnectionString");
-                services.AddDbContext<QuestOrAssessIdentityDbContext>(options =>
+                services.AddDbContext<IdentityDbContext>(options =>
                 {
                     options.UseMySql(dbConnectionString,
                         optionsBuilder =>
@@ -41,7 +41,7 @@ namespace UserIdentity.Services
                 });
             }
 
-            services.AddScoped(typeof(IDbRepositoryPattern<>), typeof(DbRepositoryPattern<>));
+            services.AddScoped(typeof(IIdentityDbRepository<>), typeof(IdentityDbRepository<>));
             
             
             
@@ -76,7 +76,7 @@ namespace UserIdentity.Services
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<QuestOrAssessIdentityDbContext>()
+            }).AddEntityFrameworkStores<IdentityDbContext>()
                 .AddUserManager<UserManager<AppUser>>().AddDefaultTokenProviders();
 
             Register(services);

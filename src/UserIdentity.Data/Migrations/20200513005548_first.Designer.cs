@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UserIdentity.Data.Migrations
 {
-    [DbContext(typeof(QuestOrAssessIdentityDbContext))]
+    [DbContext(typeof(IdentityDbContext))]
     [Migration("20200513005548_first")]
     partial class first
     {

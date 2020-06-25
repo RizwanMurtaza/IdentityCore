@@ -13,10 +13,10 @@ namespace UserIdentity.Services.UserManagement
     public class AppUserService : IAppUserService
     {
         private readonly UserManager<AppUser> _applicationUserManager;
-        private readonly QuestOrAssessIdentityDbContext _dbContext;
+        private readonly IdentityDbContext _dbContext;
 
         public AppUserService(UserManager<AppUser> applicationUserManager,
-                                    QuestOrAssessIdentityDbContext dbContext,
+                                    IdentityDbContext dbContext,
                                     IHttpContextAccessor httpAccessor)
         {
             _applicationUserManager = applicationUserManager;

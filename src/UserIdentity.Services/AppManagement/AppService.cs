@@ -13,8 +13,8 @@ namespace UserIdentity.Services.AppManagement
 {
     public class AppService : IAppService
     {
-        private readonly IDbRepositoryPattern<Application> _applicationRepository;
-        public AppService(IDbRepositoryPattern<Application> applicationRepository)
+        private readonly IIdentityDbRepository<Application> _applicationRepository;
+        public AppService(IIdentityDbRepository<Application> applicationRepository)
         {
             _applicationRepository = applicationRepository;
         }

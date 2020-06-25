@@ -6,7 +6,7 @@ using MclApp.Core.IdentityDomain;
 
 namespace UserIdentity.Data.Repository
 {
-    public partial interface IDbRepositoryPattern<T> where T : IAuditableEntity
+    public partial interface IIdentityDbRepository<T> where T : IAuditableEntity
     {
         
         Task<T> GetById(object id);

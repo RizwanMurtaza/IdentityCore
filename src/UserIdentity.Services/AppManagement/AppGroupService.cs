@@ -13,15 +13,15 @@ namespace UserIdentity.Services.AppManagement
 {
    public class AppGroupService : IAppGroupService
    {
-       private readonly IDbRepositoryPattern<AppGroup> _groupRepository;
-       private readonly IDbRepositoryPattern<GroupUser> _groupUserRepository;
+       private readonly IIdentityDbRepository<AppGroup> _groupRepository;
+       private readonly IIdentityDbRepository<GroupUser> _groupUserRepository;
         private readonly RoleManager<AppPermission> _permissionManager;
-       private readonly IDbRepositoryPattern<GroupPermission> _groupPermissionRepository;
+       private readonly IIdentityDbRepository<GroupPermission> _groupPermissionRepository;
        private readonly UserManager<AppUser> _applicationUserManager;
 
-        public AppGroupService(IDbRepositoryPattern<AppGroup>group, 
-            IDbRepositoryPattern<Application> applicationRepository, 
-            RoleManager<AppPermission> roleManager, IDbRepositoryPattern<GroupPermission> groupPermissionRepository, UserManager<AppUser> applicationUserManager, IDbRepositoryPattern<GroupUser> groupUserRepository)
+        public AppGroupService(IIdentityDbRepository<AppGroup>group, 
+            IIdentityDbRepository<Application> applicationRepository, 
+            RoleManager<AppPermission> roleManager, IIdentityDbRepository<GroupPermission> groupPermissionRepository, UserManager<AppUser> applicationUserManager, IIdentityDbRepository<GroupUser> groupUserRepository)
         {
             _groupRepository = group;
             _permissionManager = roleManager;

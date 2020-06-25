@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace UserIdentity.Data.Migrations
 {
-    [DbContext(typeof(QuestOrAssessIdentityDbContext))]
+    [DbContext(typeof(IdentityDbContext))]
     partial class QuestOrAssessIdentityDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

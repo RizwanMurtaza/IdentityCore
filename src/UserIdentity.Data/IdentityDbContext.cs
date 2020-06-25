@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UserIdentity.Data
 {
-    public sealed class QuestOrAssessIdentityDbContext : IdentityDbContext<AppUser, AppPermission, int,
+    public sealed class IdentityDbContext : IdentityDbContext<AppUser, AppPermission, int,
                                                     IdentityUserClaim<int>, AppUserPermission, LoginDetails, 
                                                     IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public int CurrentUserId { get; set; }
-        public QuestOrAssessIdentityDbContext(DbContextOptions<QuestOrAssessIdentityDbContext> options)
+        public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
             : base(options)
         {
         }

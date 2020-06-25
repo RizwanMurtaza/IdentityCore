@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UserIdentity.Data.Repository
 {
-    public partial class DbRepositoryPattern<T> : IDbRepositoryPattern<T> where T : class, IAuditableEntity
+    public partial class IdentityDbRepository<T> : IIdentityDbRepository<T> where T : class, IAuditableEntity
     {
         #region Fields
 
-        private readonly QuestOrAssessIdentityDbContext _context;
+        private readonly IdentityDbContext _context;
         private DbSet<T> _entities;
 
         #region Properties
@@ -24,7 +24,7 @@ namespace UserIdentity.Data.Repository
             get { return _entities ??= _context.Set<T>(); }
         }
         #endregion
-        public DbRepositoryPattern(QuestOrAssessIdentityDbContext context)
+        public IdentityDbRepository(IdentityDbContext context)
         {
             this._context = context;
         }
