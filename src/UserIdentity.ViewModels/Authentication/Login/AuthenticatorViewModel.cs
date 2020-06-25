@@ -4,5 +4,6 @@
     {
         public string SharedKey { get; set; }
         public string AuthenticatorUri { get; set; }
+        public bool Success { get; set; }
     }
 }

@@ -21,6 +21,16 @@ namespace UserIdentity.Services.Authentication
             _applicationUserManager = applicationUserManager;
             _urlEncoder = urlEncoder;
         }
+        public async Task<bool> IsActive(string userId)
+        {
+            var user = await _applicationUserManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
+            return user.TwoFactorEnabled;
+        }
+
 
         public async Task<AuthenticatorViewModel> GetAuthenticatorForUser(string userId)
         {
@@ -99,6 +109,7 @@ namespace UserIdentity.Services.Authentication
 
             model.SharedKey = FormatKey(unformattedKey);
             model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
+            model.Success = true;
         }
         private static string FormatKey(string unformattedKey)
         {
