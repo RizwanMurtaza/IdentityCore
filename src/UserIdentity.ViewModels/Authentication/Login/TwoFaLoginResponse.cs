@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace UserIdentity.ViewModels.Authentication.Login
+﻿namespace UserIdentity.ViewModels.Authentication.Login
 {
     public class TwoFaLoginResponse
     {

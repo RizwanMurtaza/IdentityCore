@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using UserIdentity.Core.Domain.Group;
-using UserIdentity.Core.Domain.Identity;
+using MclApp.Core.IdentityDomain.Group;
+using MclApp.Core.IdentityDomain.Identity;
 
-namespace UserIdentity.Core.Domain
+namespace MclApp.Core.IdentityDomain
 {
     public class Application : IAuditableEntity
     {

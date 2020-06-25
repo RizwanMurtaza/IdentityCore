@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using MclApp.Core.IdentityDomain.Group;
 using Microsoft.AspNetCore.Identity;
-using UserIdentity.Core.Domain.Group;
 
-namespace UserIdentity.Core.Domain.Identity
+namespace MclApp.Core.IdentityDomain.Identity
 {
     public class AppPermission : IdentityRole<int> , IAuditableEntity
     {

@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Net.Mime;
+using MclApp.Core.IdentityDomain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UserIdentity.Core.Domain;
 
 namespace UserIdentity.Data.Mappings
 {

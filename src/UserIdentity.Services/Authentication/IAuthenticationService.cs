@@ -1,6 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
-using UserIdentity.Core;
+﻿using System.Threading.Tasks;
 using UserIdentity.ViewModels.Authentication.Login;
 
 namespace UserIdentity.Services.Authentication

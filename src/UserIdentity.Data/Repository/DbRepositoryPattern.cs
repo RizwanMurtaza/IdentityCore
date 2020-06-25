@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MclApp.Core;
+using MclApp.Core.IdentityDomain;
 using Microsoft.EntityFrameworkCore;
-using UserIdentity.Core.Domain;
 
 namespace UserIdentity.Data.Repository
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserIdentity.Core;
-using UserIdentity.Core.Domain.Identity;
+using MclApp.Core;
+using MclApp.Core.IdentityDomain.Identity;
 
 namespace UserIdentity.Services.UserManagement
 {

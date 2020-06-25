@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MclApp.Core;
+using MclApp.Core.IdentityDomain.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using UserIdentity.Core;
-using UserIdentity.Core.Domain.Identity;
 using UserIdentity.Data;
 
 namespace UserIdentity.Services.UserManagement

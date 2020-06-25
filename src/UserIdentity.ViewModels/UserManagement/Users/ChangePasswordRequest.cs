@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace UserIdentity.ViewModels.UserManagement.Users
+﻿namespace UserIdentity.ViewModels.UserManagement.Users
 {
     public class ChangePasswordRequest
     {

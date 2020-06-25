@@ -2,8 +2,8 @@
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using MclApp.Core.IdentityDomain.Identity;
 using Microsoft.AspNetCore.Identity;
-using UserIdentity.Core.Domain.Identity;
 using UserIdentity.ViewModels.Authentication.Login;
 
 namespace UserIdentity.Services.Authentication

@@ -1,7 +1,7 @@
 ﻿using System;
-using UserIdentity.Core.Domain.Identity;
+using MclApp.Core.IdentityDomain.Identity;
 
-namespace UserIdentity.Core.Domain.Group
+namespace MclApp.Core.IdentityDomain.Group
 {
     public class GroupPermission : IAuditableEntity
     {

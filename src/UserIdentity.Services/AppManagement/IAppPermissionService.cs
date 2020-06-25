@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using UserIdentity.Core.Domain;
+using MclApp.Core;
 
 namespace UserIdentity.Services.AppManagement
 {

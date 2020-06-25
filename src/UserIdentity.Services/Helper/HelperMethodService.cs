@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using UserIdentity.Core.Domain.Identity;
-using UserIdentity.ViewModels.Authentication.Claims;
-
-namespace UserIdentity.Services.Helper
+﻿namespace UserIdentity.Services.Helper
 {
     public static class HelperMethodService<T>
     {

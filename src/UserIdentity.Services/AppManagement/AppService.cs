@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MclApp.Core;
+using MclApp.Core.IdentityDomain;
+using MclApp.Core.IdentityDomain.Group;
+using MclApp.Core.IdentityDomain.Identity;
 using Microsoft.EntityFrameworkCore;
-using UserIdentity.Core;
-using UserIdentity.Core.Domain;
-using UserIdentity.Core.Domain.Group;
-using UserIdentity.Core.Domain.Identity;
 using UserIdentity.Data.Repository;
 
 namespace UserIdentity.Services.AppManagement

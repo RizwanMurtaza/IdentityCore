@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace UserIdentity.ViewModels.Authentication.Login
+﻿namespace UserIdentity.ViewModels.Authentication.Login
 {
     public class ForgotPasswordResponse
     {

@@ -1,15 +1,14 @@
 ﻿using System;
-using UserIdentity.Core.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
 
-namespace UserIdentity.Core.Domain.Group
+namespace MclApp.Core.IdentityDomain.Identity
 {
-    public class GroupUser : IAuditableEntity
+    public class AppUserPermission : IdentityUserRole<int> , IAuditableEntity
     {
+
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public int GroupId { get; set; }
         public virtual AppUser User { get; set; }
-        public virtual AppGroup Group { get; set; }
+        public virtual AppPermission Permission { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime CreatedAt { get; set; }

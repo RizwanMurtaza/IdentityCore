@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using MclApp.Core.IdentityDomain.Defaults;
+using MclApp.Core.IdentityDomain.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using UserIdentity.Core.Domain.Defaults;
-using UserIdentity.Core.Domain.Identity;
 using UserIdentity.Services.AppManagement;
 using UserIdentity.Services.Email;
 using UserIdentity.ViewModels.Authentication.Login;

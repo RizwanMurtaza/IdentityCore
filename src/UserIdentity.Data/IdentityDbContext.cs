@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
+using MclApp.Core.IdentityDomain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using UserIdentity.Core.Domain.Identity;
 
 namespace UserIdentity.Data
 {

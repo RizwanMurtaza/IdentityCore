@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bogus;
-using UserIdentity.Core.Domain;
-using UserIdentity.Core.Domain.Defaults;
-using UserIdentity.Core.Domain.Group;
-using UserIdentity.Core.Domain.Identity;
+using MclApp.Core.IdentityDomain;
+using MclApp.Core.IdentityDomain.Defaults;
+using MclApp.Core.IdentityDomain.Group;
+using MclApp.Core.IdentityDomain.Identity;
 using UserIdentity.Services.AppManagement;
 using UserIdentity.Services.UserManagement;
 using UserIdentity.ViewModels.UserManagement.Users;

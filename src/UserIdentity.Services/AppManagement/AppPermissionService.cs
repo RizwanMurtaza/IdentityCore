@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MclApp.Core;
+using MclApp.Core.IdentityDomain.Identity;
 using Microsoft.AspNetCore.Identity;
-using UserIdentity.Core.Domain;
-using UserIdentity.Core.Domain.Identity;
 
 namespace UserIdentity.Services.AppManagement
 {

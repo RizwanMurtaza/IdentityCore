@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MclApp.Core.IdentityDomain.Group;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UserIdentity.Core.Domain.Group;
 
 namespace UserIdentity.Data.Mappings
 {

@@ -1,6 +1,6 @@
-﻿using UserIdentity.Core.Domain.Identity;
+﻿using MclApp.Core.IdentityDomain.Identity;
 
-namespace UserIdentity.Core.Domain
+namespace MclApp.Core.IdentityDomain
 {
     public class Contact 
     {

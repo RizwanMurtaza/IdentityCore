@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UserIdentity.Core.Domain.Group
+namespace MclApp.Core.IdentityDomain.Group
 {
     public class AppGroup : IAuditableEntity
     {

@@ -1,15 +1,14 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Text;
+using MclApp.Core.IdentityDomain.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using UserIdentity.Core.Domain.Identity;
 using UserIdentity.Data;
 using UserIdentity.Data.Repository;
-using UserIdentity.Services.Authentication;
 using UserIdentity.Services.Email;
 using UserIdentity.Services.Jwt;
 

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserIdentity.Services.AppManagement;
 using UserIdentity.Services.Authentication;
 using UserIdentity.Services.Helper;
 using UserIdentity.ViewModels.Authentication.Login;

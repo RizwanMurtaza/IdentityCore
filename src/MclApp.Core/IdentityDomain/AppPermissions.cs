@@ -1,4 +1,4 @@
-﻿namespace UserIdentity.Core.Domain
+﻿namespace MclApp.Core.IdentityDomain
 {
     public enum AppPermissions
     {

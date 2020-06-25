@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UserIdentity.Core.Domain.Identity;
+﻿using MclApp.Core.IdentityDomain.Identity;
 using UserIdentity.ViewModels.Authentication.Claims;
 
 namespace UserIdentity.Services.Helper

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace MclApp.Services.DatabaseInit
+﻿namespace MclApp.Services.DatabaseInit
 {
     public interface IDatabaseSeeder
     {

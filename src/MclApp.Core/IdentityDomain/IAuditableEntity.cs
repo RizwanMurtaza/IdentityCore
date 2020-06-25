@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UserIdentity.Core.Domain
+namespace MclApp.Core.IdentityDomain
 {
     public interface IAuditableEntity
     {

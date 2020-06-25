@@ -1,4 +1,4 @@
-﻿namespace UserIdentity.Core
+﻿namespace MclApp.Core
 {
     public class ServiceResponse<T>
     {

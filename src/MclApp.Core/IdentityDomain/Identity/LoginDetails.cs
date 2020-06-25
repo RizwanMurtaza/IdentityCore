@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace UserIdentity.Core.Domain.Identity
+namespace MclApp.Core.IdentityDomain.Identity
 {
     public class LoginDetails : IdentityUserLogin<int>, IAuditableEntity
     {

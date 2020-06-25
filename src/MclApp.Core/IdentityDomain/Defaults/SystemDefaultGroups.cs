@@ -1,4 +1,4 @@
-﻿namespace UserIdentity.Core.Domain.Defaults
+﻿namespace MclApp.Core.IdentityDomain.Defaults
 {
     public enum SystemDefaultGroups
     {

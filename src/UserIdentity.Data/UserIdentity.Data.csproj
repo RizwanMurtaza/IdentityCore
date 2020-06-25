@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MclApp.Core\MclApp.Core.csproj" />
     <ProjectReference Include="..\UserIdentity.Core\UserIdentity.Core.csproj" />
   </ItemGroup>
 

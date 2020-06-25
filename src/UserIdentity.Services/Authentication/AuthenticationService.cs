@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using MclApp.Core.IdentityDomain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using UserIdentity.Core.Domain.Identity;
 using UserIdentity.Services.Helper;
 using UserIdentity.Services.Jwt;
-using UserIdentity.ViewModels.Authentication.Claims;
 using UserIdentity.ViewModels.Authentication.Login;
 
 namespace UserIdentity.Services.Authentication

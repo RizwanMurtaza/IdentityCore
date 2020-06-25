@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using UserIdentity.Services.Authentication;
 using UserIdentity.Services.Jwt;
 
 namespace UserIdentity.Api.Filters
