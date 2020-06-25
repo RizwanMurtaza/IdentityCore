@@ -36,11 +36,11 @@ namespace UserIdentity.Api
                 var apb = new AuthorizationPolicyBuilder(new[] { UserApiAuthenticationHandler.SchemeName });
                 apb = apb.RequireAuthenticatedUser();
                 opt.DefaultPolicy = apb.Build();
-                //opt.AddPolicy("Default", policy =>
-                //{
-                //    policy.AuthenticationSchemes.Add(UserAPIAuthenticationHandler.SchemeName);
-                //    policy.RequireAuthenticatedUser();
-                //});
+                opt.AddPolicy("Default", policy =>
+                {
+                    policy.AuthenticationSchemes.Add(UserApiAuthenticationHandler.SchemeName);
+                    policy.RequireAuthenticatedUser();
+                });
             });
 
             services.AddCors(options =>

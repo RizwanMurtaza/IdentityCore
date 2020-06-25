@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Bogus" Version="29.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.4" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\MclApp.Core\MclApp.Core.csproj" />
+	  <ProjectReference Include="..\MclApp.Data\MclApp.Data.csproj" />
+	</ItemGroup>
+</Project>
