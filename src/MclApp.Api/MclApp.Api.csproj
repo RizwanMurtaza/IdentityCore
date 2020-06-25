@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MclApp.Data\MclApp.Data.csproj" />
+    <ProjectReference Include="..\MclApp.Services\MclApp.Services.csproj" />
+    <ProjectReference Include="..\MclApp.ViewModelServices\MclApp.ViewModelServices.csproj" />
     <ProjectReference Include="..\UserIdentity.Data\UserIdentity.Data.csproj" />
     <ProjectReference Include="..\UserIdentity.Services\UserIdentity.Services.csproj" />
     <ProjectReference Include="..\UserIdentity.ViewModels\UserIdentity.ViewModels.csproj" />

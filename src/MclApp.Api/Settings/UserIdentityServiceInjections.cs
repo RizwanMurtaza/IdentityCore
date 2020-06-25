@@ -12,7 +12,7 @@ using UserIdentity.Data.Repository;
 using UserIdentity.Services.Email;
 using UserIdentity.Services.Jwt;
 
-namespace UserIdentity.Services
+namespace MclApp.Api.Settings
 {
     public static class UserIdentityServiceInjections
     {

@@ -1,3 +1,5 @@
+using MclApp.Api.Filters;
+using MclApp.Api.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,10 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
-using UserIdentity.Api.Filters;
-using UserIdentity.Services;
 
-namespace UserIdentity.Api
+namespace MclApp.Api
 {
     public class Startup
     {
@@ -31,6 +31,7 @@ namespace UserIdentity.Api
                 x.AddScheme<UserApiAuthenticationHandler>(UserApiAuthenticationHandler.SchemeName, UserApiAuthenticationHandler.SchemeName);
                 x.DefaultScheme = UserApiAuthenticationHandler.SchemeName;
             });
+
             services.AddAuthorization(opt =>
             {
                 var apb = new AuthorizationPolicyBuilder(new[] { UserApiAuthenticationHandler.SchemeName });
@@ -52,6 +53,7 @@ namespace UserIdentity.Api
                         );
             });
             services.AddUserIdentityServices(Configuration);
+            services.AddMclAppServiceInjections(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

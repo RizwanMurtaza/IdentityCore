@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace UserIdentity.Api.Controllers
+namespace MclApp.Api.Controllers
 {
 
     [Route("api/[controller]/[action]")]

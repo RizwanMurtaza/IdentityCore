@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using UserIdentity.Services.Jwt;
 
-namespace UserIdentity.Api.Filters
+namespace MclApp.Api.Filters
 {
     public class UserApiAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

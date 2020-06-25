@@ -1,4 +1,4 @@
-﻿namespace UserIdentity.Api.Filters
+﻿namespace MclApp.Api.Filters
 {
     public class AuthConstants
     {

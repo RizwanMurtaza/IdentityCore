@@ -6,7 +6,7 @@ using UserIdentity.Services.UserManagement;
 using UserIdentity.ViewModels.Authentication.Login;
 using UserIdentity.ViewModels.UserManagement.Users;
 
-namespace UserIdentity.Api.Controllers
+namespace MclApp.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]

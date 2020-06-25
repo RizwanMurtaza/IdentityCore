@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace UserIdentity.Api.Filters
+namespace MclApp.Api.Filters
 {
 	public class ApiAuthorizeAttribute : AuthorizeAttribute
 	{

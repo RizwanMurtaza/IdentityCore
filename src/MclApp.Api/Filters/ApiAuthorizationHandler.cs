@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using UserIdentity.ViewModels.Authentication.Claims;
 
-namespace UserIdentity.Api.Filters
+namespace MclApp.Api.Filters
 {
 	public class ApiAuthorizationHandler : AuthorizationHandler<RolesAuthorizationRequirement>
 	{

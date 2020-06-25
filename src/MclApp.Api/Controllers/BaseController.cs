@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserIdentity.ViewModels.Authentication.Claims;
 
-namespace UserIdentity.Api.Controllers
+namespace MclApp.Api.Controllers
 {
     public class BaseController : Controller
     {

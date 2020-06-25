@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace UserIdentity.Api.Filters
+namespace MclApp.Api.Filters
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ApiErrorMiddleware
