@@ -1,5 +1,9 @@
+using System.Reflection;
+using AutoMapper;
 using MclApp.Api.Filters;
 using MclApp.Api.Settings;
+using MclApp.Services;
+using MclApp.ViewModelServices.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
+using UserIdentity.Services;
 
 namespace MclApp.Api
 {
@@ -53,7 +58,12 @@ namespace MclApp.Api
                         );
             });
             services.AddUserIdentityServices(Configuration);
+
+
+            //services.AddAutoMapper(assembly[])
             services.AddMclAppServiceInjections(Configuration);
+            
+         
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -61,7 +71,8 @@ namespace MclApp.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-             //   app.EnsureDatabaseIsSeeded(true);
+                app.EnsureIdentityIsSeeded(true);
+                app.EnsureMclAppIsInitialized(false);
             }
             else
             {

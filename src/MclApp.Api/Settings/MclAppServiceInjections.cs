@@ -1,8 +1,11 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
+using AutoMapper;
 using MclApp.Data.DataContext;
 using MclApp.Data.Repository;
 using MclApp.Services.CyberScoreServices;
 using MclApp.ViewModelServices;
+using MclApp.ViewModelServices.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +42,10 @@ namespace MclApp.Api.Settings
             services.AddScoped(typeof(IDbRepositoryPattern<>), typeof(DbRepositoryPattern<>));
             var servicesAssembly = Assembly.GetAssembly(typeof(CyberScoreService));
             var viewModelAssembly = Assembly.GetAssembly(typeof(DashboardViewModelService));
-
+            
+            services.AddAutoMapper(typeof(VulnerabilityViewModel));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(CyberVulnerabilityViewModelMapping)));
+            
             Register(services, servicesAssembly);
             Register(services, viewModelAssembly);
             return services;
@@ -49,6 +55,30 @@ namespace MclApp.Api.Settings
         {
             if (thisAssembly == null) return;
             var typesToRegister = thisAssembly.GetTypes();
+
+            foreach (var typeToRegister in typesToRegister)
+            {
+                var typeInterfaces = typeToRegister.GetInterfaces();
+
+                foreach (var typesInterface in typeInterfaces)
+                {
+                    services.AddScoped(typesInterface, typeToRegister);
+                }
+            }
+        }
+        public static void Register(IServiceCollection services)
+        {
+            var thisAssembly = Assembly.GetAssembly(typeof(MclAppServiceInjections));
+            var namespaces = new[]
+            {
+                "UserIdentity.Services.AppManagement",
+                "UserIdentity.Services.UserManagement",
+                "UserIdentity.Services.DatabaseInit",
+                "UserIdentity.Services.Authentication"
+            };
+
+            if (thisAssembly == null) return;
+            var typesToRegister = thisAssembly.GetTypes().Where(x => namespaces.Contains(x.Namespace)).ToList();
 
             foreach (var typeToRegister in typesToRegister)
             {
