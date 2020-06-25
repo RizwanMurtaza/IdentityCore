@@ -63,18 +63,14 @@ namespace UserIdentity.Api.Controllers
             {
                 return new AuthenticatorViewModel() { Success = false };
             }
-            var sts = await _twoFactorAuthenticationService.Enable2FaForUser(user.Id);
-            if (sts)
-            {
-                return await _twoFactorAuthenticationService.GetAuthenticatorForUser(user.Id);
-            }
+            return await _twoFactorAuthenticationService.GetAuthenticatorForUser(user.Id);
 
-            return new AuthenticatorViewModel() { Success = false };
         }
 
 
         [Authorize]
-        public async Task<Activate2FaAuthentication> VerifyAuthenticator(string code)
+        [HttpPost]
+        public async Task<Activate2FaAuthentication> VerifyAuthenticator([FromBody]string code)
         {
             var user = BreachUser;
             if (user == null)

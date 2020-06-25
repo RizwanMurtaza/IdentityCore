@@ -51,17 +51,17 @@ namespace UserIdentity.Services.Authentication
         }
         public async Task<TwoFaLoginResponse> LoginWith2Fa(TwoFaLoginRequest request)
         {
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 
+            var user = await _applicationUserManager.FindByEmailAsync(request.Username);
             if (user == null)
             {
                 return new TwoFaLoginResponse() { IsCodeValid = false };
 
             }
             var authenticatorCode = request.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
-            var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, request.RememberMe, request.RememberMachine);
+            var result = await _applicationUserManager.VerifyTwoFactorTokenAsync(user, new IdentityOptions().Tokens.AuthenticatorTokenProvider, authenticatorCode);
 
-            if (!result.Succeeded) return new TwoFaLoginResponse() {IsCodeValid = false};
+            if (!result) return new TwoFaLoginResponse() {IsCodeValid = false};
             
             user = _applicationUserManager.Users.Include(y => y.Groups).First(x => x.UserName.ToLower().Equals(request.Username));
             var roles = await _applicationUserManager.GetRolesAsync(user);
