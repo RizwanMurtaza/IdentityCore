@@ -42,6 +42,11 @@ namespace UserIdentity.Services.UserManagement
             return await _applicationUserManager.FindByEmailAsync(email);
         }
 
+        public async Task<bool> NeedSeeding()
+        {
+            return await _applicationUserManager.Users.AnyAsync() ;
+        }
+
         public async Task<ServiceResponse<MclAppUser>> AddUserAsync(MclAppUser user)
         {
             var result =  await _applicationUserManager.CreateAsync(user);
@@ -49,54 +54,7 @@ namespace UserIdentity.Services.UserManagement
             var createdUser = await _applicationUserManager.FindByEmailAsync(user.Email);
             return new ServiceResponse<MclAppUser>().SuccessResponse(createdUser);
         }
-        public async Task<IList<string>> GetUserRolesAsync(MclAppUser user)
-        {
-            return await _applicationUserManager.GetRolesAsync(user);
-        }
-
-        public async Task<(MclAppUser User, IEnumerable<string> Roles)?> GetUserAndRolesAsync(int userId)
-        {
-            var user = await _dbContext.Users
-                .Include(u => u.Permission)
-                .Where(u => u.Id == userId)
-                .SingleOrDefaultAsync();
-
-            if (user == null)
-                return null;
-
-            var userRoleIds = user.Permission.Select(r => r.RoleId).ToList();
-
-            var roles = await _dbContext.Roles
-                .Where(r => userRoleIds.Contains(r.Id))
-                .Select(r => r.Name)
-                .ToArrayAsync();
-
-            return (user, roles);
-        }
-
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> CreateUserAsync(MclAppUser user, IEnumerable<string> roles, string password)
-        {
-            var result = await _applicationUserManager.CreateAsync(user, password);
-            if (!result.Succeeded)
-                return (false, result.Errors.Select(e => e.Description));
-            user = await _applicationUserManager.FindByNameAsync(user.UserName);
-            try
-            {
-                result = await this._applicationUserManager.AddToRolesAsync(user, roles.Distinct());
-            }
-            catch
-            {
-                await DeleteUserAsync(user);
-                throw;
-            }
-            if (!result.Succeeded)
-            {
-                await DeleteUserAsync(user);
-                return (false, result.Errors.Select(e => e.Description).ToArray());
-            }
-
-            return (true, new List<string>());
-        }
+        
         public async Task<ServiceResponse<MclAppUser>> CreateUserAsync(MclAppUser user, string password)
         {
             var result = await _applicationUserManager.CreateAsync(user, password);
@@ -107,14 +65,6 @@ namespace UserIdentity.Services.UserManagement
 
             return new ServiceResponse<MclAppUser>().SuccessResponse(user);
         }
-
-
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(MclAppUser user)
-        {
-            return await UpdateUserAsync(user, null);
-        }
-
-
         public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdateUserAsync(MclAppUser user, IEnumerable<string> roles)
         {
             var result = await _applicationUserManager.UpdateAsync(user);
@@ -146,50 +96,6 @@ namespace UserIdentity.Services.UserManagement
 
             return (true, new string[] { });
         }
-
-
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> ResetPasswordAsync(MclAppUser user, string newPassword)
-        {
-            var resetToken = await _applicationUserManager.GeneratePasswordResetTokenAsync(user);
-
-            var result = await _applicationUserManager.ResetPasswordAsync(user, resetToken, newPassword);
-            if (!result.Succeeded)
-                return (false, result.Errors.Select(e => e.Description));
-
-            return (true, new string[] { });
-        }
-
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> UpdatePasswordAsync(MclAppUser user, string currentPassword, string newPassword)
-        {
-            var result = await _applicationUserManager.ChangePasswordAsync(user, currentPassword, newPassword);
-            if (!result.Succeeded)
-                return (false, result.Errors.Select(e => e.Description));
-
-            return (true, new string[] { });
-        }
-
-        public async Task<bool> CheckPasswordAsync(MclAppUser user, string password)
-        {
-            if (!await _applicationUserManager.CheckPasswordAsync(user, password))
-            {
-                if (!_applicationUserManager.SupportsUserLockout)
-                    await _applicationUserManager.AccessFailedAsync(user);
-
-                return false;
-            }
-
-            return true;
-        }
-        public async Task<(bool Succeeded, IEnumerable<string> Errors)> DeleteUserAsync(string userId)
-        {
-            var user = await _applicationUserManager.FindByIdAsync(userId);
-
-            if (user != null)
-                return await DeleteUserAsync(user);
-
-            return (true, new string[] { });
-        }
-
 
         public async Task<(bool Succeeded, IEnumerable<string> Errors)> DeleteUserAsync(MclAppUser user)
         {

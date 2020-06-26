@@ -18,6 +18,7 @@ namespace UserIdentity.Services.DatabaseInit
         public string SuperAdmin = "Super Admin";
         public string Admin = "Admin";
         public string Viewer = "Viewer";
+        public Guid UserId = new Guid("d66ae70b-1f2c-4ea4-a4d7-0644ad1053f3");
         private readonly IAppService _appService;
         private readonly IAppGroupService _groupService;
         private readonly IAppPermissionService _permissionService;
@@ -35,6 +36,11 @@ namespace UserIdentity.Services.DatabaseInit
 
         public async Task<bool> InitializeDataBase()
         {
+            if(!await _appUserService.NeedSeeding())
+            {
+                return false;
+            }
+
             var appCreated = await InitializeApplication();
             var groupCreated = false;
             if (appCreated)
@@ -151,6 +157,7 @@ namespace UserIdentity.Services.DatabaseInit
             superAdmin.ApplicationKey = app.Object.ApplicationKey.ToString();
             superAdmin.Group = new List<string>();
             superAdmin.Group.Add(SystemDefaultGroups.SuperAdmin.ToString());
+            superAdmin.MclUserId = UserId;
             var result=  await _userServices.CreateAccount(superAdmin);
             return result.Success;
         }
@@ -163,6 +170,17 @@ namespace UserIdentity.Services.DatabaseInit
                 await _permissionService.AddPermission(permissionName, permissionName);
             }
             return true;
+        }
+
+        private bool RequiredDataSeed()
+        {
+
+            
+
+
+
+
+            return false;
         }
 
 

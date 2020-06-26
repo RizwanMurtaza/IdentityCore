@@ -32,8 +32,6 @@ namespace MclApp.Api.Controllers
         {
             return await _newUserServices.ForgotPassword(model);
         }
-
-
         [HttpPost]
         [Authorize]
         public async Task<ChangePasswordResponse> ChangePassword([FromBody] ChangePasswordRequest model)
@@ -66,8 +64,6 @@ namespace MclApp.Api.Controllers
             return await _twoFactorAuthenticationService.GetAuthenticatorForUser(user.Id);
 
         }
-
-
         [Authorize]
         [HttpPost]
         public async Task<Activate2FaAuthentication> VerifyAuthenticator([FromBody]string code)

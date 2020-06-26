@@ -18,5 +18,7 @@ namespace UserIdentity.ViewModels.UserManagement.Users
         public  List<string> Group { get; set; }
         public string ApplicationKey { get; set; }
 
+        public Guid? MclUserId { get; set; }
+
     }
 }

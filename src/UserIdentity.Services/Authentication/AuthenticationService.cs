@@ -90,7 +90,8 @@ namespace UserIdentity.Services.Authentication
                 Id = user.Id.ToString(),
                 FirstName = user.FirstName,
                 Lastname = user.LastName,
-                Token = token
+                Token = token,
+                MclUserId = user.MclUserId.ToString()
             };
         }
 

@@ -16,6 +16,7 @@ namespace UserIdentity.Services.Helper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
+                MclUserId = user.MclUserId.ToString()
             };
         }
     }

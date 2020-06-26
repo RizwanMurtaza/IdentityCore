@@ -19,7 +19,6 @@ namespace MclApp.Services.DatabaseInit
         private readonly IDbRepositoryPattern<UserTask> _userTasksRepo;
         private readonly IDbRepositoryPattern<Narrative> _narrativesRepo;
         private readonly IDbRepositoryPattern<UserExtendedInformation> _userExtendedInfoRepo;
-
         public DatabaseSeeder(IDbRepositoryPattern<ImprovementTask> securityTaskRepo,
             IDbRepositoryPattern<CyberScore> cyberScoreRepo,
             IDbRepositoryPattern<CyberVulnerability> cyberVulnerabilityRepo, IDbRepositoryPattern<UserTask> userTasksRepo, IDbRepositoryPattern<Narrative> narrativesRepo, IDbRepositoryPattern<UserExtendedInformation> userExtendedInfoRepo)

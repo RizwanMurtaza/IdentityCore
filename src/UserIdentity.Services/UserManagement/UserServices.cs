@@ -51,7 +51,7 @@ namespace UserIdentity.Services.UserManagement
                     MclApplicationId = appId.Object.Id,
                     LockoutEnabled = true,
                     EmailConfirmed = true,
-                    MclUserId = Guid.NewGuid()
+                    MclUserId = request.MclUserId ?? Guid.NewGuid()
 				};
 				var identityResult = await _applicationUserManager.CreateAsync(user,request.Password);
 

@@ -1,4 +1,6 @@
-﻿namespace MclApp.ViewModelServices.ViewModels
+﻿using System.Collections.Generic;
+
+namespace MclApp.ViewModelServices.ViewModels
 {
     public class DashboardViewModel
     {
@@ -14,6 +16,7 @@
         public string GoalScoreTracker { get; set; }
 
         public string CurrentCyberScoreForChart { get; set; }
+        
         //public List<CyberVulnerabilityViewModel> CyberVulnerabilityViewModel { get; set; }
 
     }

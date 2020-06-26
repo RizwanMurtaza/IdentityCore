@@ -16,6 +16,7 @@ namespace UserIdentity.Services.Jwt
 		private const string MobilePhone = "MobilePhone";
 		private const string UserId = "UserId";
 		private const string Email = "Email";
+        private const string MclUserId = "MclUserId";
 		private const string FirstName = "FirstName";
 		private const string LastName = "LastName";
 		private const string Username = "Username";
@@ -50,11 +51,12 @@ namespace UserIdentity.Services.Jwt
 			user.Roles = claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToArray();
 			var allClaims = claims.Concat(new[]
 			{
-				new Claim(UserId, user.Id.ToString()),
+				new Claim(UserId, user.ToString()),
 				new Claim(Email, user.Email),
 				new Claim(Username, user.Username),
 				new Claim(FirstName, user.FirstName),
 				new Claim(LastName, user.LastName),
+                new Claim(MclUserId, user.MclUserId),
 			}).ToList();
 
 			if (!string.IsNullOrEmpty(user.PhoneNumber))
@@ -128,6 +130,7 @@ namespace UserIdentity.Services.Jwt
 			{
 				Email = PopClaimValue(claims, Email),
 				Id = PopClaimValue(claims, UserId),
+                MclUserId = PopClaimValue(claims, MclUserId),
 				Username = PopClaimValue(claims, Username),
 				FirstName = PopClaimValue(claims, FirstName),
 				LastName = PopClaimValue(claims, LastName),
