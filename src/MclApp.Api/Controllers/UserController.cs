@@ -73,10 +73,12 @@ namespace MclApp.Api.Controllers
             {
                 return new Activate2FaAuthentication() { IsCodeValid = false };
             }
-            var sts = await _twoFactorAuthenticationService.Enable2FaForUser(user.Id);
-            if (sts)
+            var result  = await _twoFactorAuthenticationService.ActivateAuthenticatorForUser(code,user.Id);
+
+            if (result.IsCodeValid)
             {
-                return await _twoFactorAuthenticationService.ActivateAuthenticatorForUser(code,user.Id);
+                await _twoFactorAuthenticationService.Enable2FaForUser(user.Id);
+                return result;
             }
 
             return new Activate2FaAuthentication() { IsCodeValid = false };

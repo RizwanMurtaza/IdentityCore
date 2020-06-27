@@ -36,7 +36,7 @@ namespace UserIdentity.Services.DatabaseInit
 
         public async Task<bool> InitializeDataBase()
         {
-            if(!await _appUserService.NeedSeeding())
+            if(await _appUserService.NeedSeeding())
             {
                 return false;
             }

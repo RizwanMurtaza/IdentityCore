@@ -189,7 +189,7 @@ namespace UserIdentity.Services.UserManagement
                 return ChangePasswordResponse.Succeed("Password changed successfully");
             }
 
-            return ChangePasswordResponse.Fail("Fail to change password please try again later");
+            return ChangePasswordResponse.Fail("Password miss-match or invalid password provided. please try again");
         }
 
 

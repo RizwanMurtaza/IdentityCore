@@ -89,7 +89,7 @@ namespace UserIdentity.Services.Authentication
                 Email = user.Email,
                 Id = user.Id.ToString(),
                 FirstName = user.FirstName,
-                Lastname = user.LastName,
+                LastName = user.LastName,
                 Token = token,
                 MclUserId = user.MclUserId.ToString()
             };

@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using MclApp.Api.Controllers;
 using MclApp.ViewModelServices;
+using MclApp.ViewModelServices.UserTask;
 using MclApp.ViewModelServices.ViewModels;
+using MclApp.ViewModelServices.Vulnerabilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserIdentity.ViewModels.Dashboard;
@@ -17,10 +19,16 @@ namespace MclApp.API.Controllers
     {
 
         private readonly IDashboardViewModelService _dashboardViewModelService;
+        private readonly IVulnerabilitiesViewModelService _vulnerabilitiesService;
+        private readonly IUserTasksViewModelService _userTasksViewModelService;
 
-        public DashBoardController(IDashboardViewModelService dashboardViewModelService)
+
+
+        public DashBoardController(IDashboardViewModelService dashboardViewModelService, IVulnerabilitiesViewModelService vulnerabilitiesService, IUserTasksViewModelService userTasksViewModelService)
         {
             _dashboardViewModelService = dashboardViewModelService;
+            _vulnerabilitiesService = vulnerabilitiesService;
+            _userTasksViewModelService = userTasksViewModelService;
         }
         
         public async Task<DashboardViewModel> GetDashBoardData([FromBody] string userId)
@@ -31,15 +39,31 @@ namespace MclApp.API.Controllers
        
         public async Task<DashboardViewModel> GetVulnuriblities()
         {
-            var data = await _dashboardViewModelService.GetDashBoardData(BreachUser.Id);
+            var data = await _dashboardViewModelService.GetDashBoardData(BreachUser.MclUserId);
             return data;
         }
 
         public async Task <List<VulnerabilitiesPieChartData>> GetVulnerabilitiesPieChartData()
         {
-            var data = await _dashboardViewModelService.GetChartData(BreachUser.Id);
+            var data = await _dashboardViewModelService.GetChartData(BreachUser.MclUserId);
             return data;
         }
+        public async Task<List<CyberVulnerabilityViewModel>> GetVulnerabilityTableData()
+        {
+            var data = await _vulnerabilitiesService.GetAllVulnerabilitiesForUsers(this.BreachUser.MclUserId);
+            return data;
+        }
+        public async Task<List<UserTasksViewModel>> GetAllUserTasks()
+        {
+            var data = await _userTasksViewModelService.GetAllTasksForUsers(this.BreachUser.MclUserId);
+            return data;
+        }
+        public async Task<List<UserNarrativeViewModel>> GetUserNarratives()
+        {
+            var data = await _userTasksViewModelService.GetNarrativeForUsers(this.BreachUser.MclUserId);
+            return data;
+        }
+
 
 
 

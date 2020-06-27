@@ -51,7 +51,7 @@ namespace UserIdentity.Services.Jwt
 			user.Roles = claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToArray();
 			var allClaims = claims.Concat(new[]
 			{
-				new Claim(UserId, user.ToString()),
+				new Claim(UserId, user.Id.ToString()),
 				new Claim(Email, user.Email),
 				new Claim(Username, user.Username),
 				new Claim(FirstName, user.FirstName),
