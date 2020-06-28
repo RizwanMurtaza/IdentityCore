@@ -19,7 +19,7 @@ namespace MclApp.ViewModelServices.ImprovementTask
             _mapper = mapper;
         }
 
-        public async Task<List<ImprovementTasksViewModel>> GetAllTasksForUsers(string userId)
+        public async Task<List<ImprovementTasksViewModel>> GetImprovementTasksForUsers(string userId)
         {
 
             Guid.TryParse(userId, out var id);

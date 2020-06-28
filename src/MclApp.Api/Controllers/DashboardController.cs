@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MclApp.Api.Controllers;
 using MclApp.ViewModelServices;
+using MclApp.ViewModelServices.ImprovementTask;
 using MclApp.ViewModelServices.UserTask;
 using MclApp.ViewModelServices.ViewModels;
 using MclApp.ViewModelServices.Vulnerabilities;
@@ -21,14 +22,16 @@ namespace MclApp.API.Controllers
         private readonly IDashboardViewModelService _dashboardViewModelService;
         private readonly IVulnerabilitiesViewModelService _vulnerabilitiesService;
         private readonly IUserTasksViewModelService _userTasksViewModelService;
+        private readonly IImprovementTasksViewModelService _improvementTasksViewModelService;
 
 
 
-        public DashBoardController(IDashboardViewModelService dashboardViewModelService, IVulnerabilitiesViewModelService vulnerabilitiesService, IUserTasksViewModelService userTasksViewModelService)
+        public DashBoardController(IDashboardViewModelService dashboardViewModelService, IVulnerabilitiesViewModelService vulnerabilitiesService, IUserTasksViewModelService userTasksViewModelService, IImprovementTasksViewModelService improvementTasksViewModelService)
         {
             _dashboardViewModelService = dashboardViewModelService;
             _vulnerabilitiesService = vulnerabilitiesService;
             _userTasksViewModelService = userTasksViewModelService;
+            _improvementTasksViewModelService = improvementTasksViewModelService;
         }
         
         public async Task<DashboardViewModel> GetDashBoardData([FromBody] string userId)
@@ -56,6 +59,12 @@ namespace MclApp.API.Controllers
         public async Task<List<UserTasksViewModel>> GetAllUserTasks()
         {
             var data = await _userTasksViewModelService.GetAllTasksForUsers(this.BreachUser.MclUserId);
+            return data;
+        }
+        
+        public async Task<List<ImprovementTasksViewModel>> GetImprovementTasks()
+        {
+            var data = await _improvementTasksViewModelService.GetImprovementTasksForUsers(this.BreachUser.MclUserId);
             return data;
         }
         public async Task<List<UserNarrativeViewModel>> GetUserNarratives()

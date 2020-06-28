@@ -11,7 +11,7 @@ namespace MclApp.ViewModelServices.ViewModels
         public string Status { get; set; }
         public string DueDate { get; set; }
         public bool IsOverDue { get; set; }
-      
+        public string StatusText => this.IsOverDue ? "OverDue" : this.Status;
     }
 
     public class UserTasksViewModelViewModelMapping : Profile

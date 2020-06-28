@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using MclApp.ViewModelServices;
+using MclApp.ViewModelServices.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserIdentity.Services.Authentication;
@@ -14,10 +16,13 @@ namespace MclApp.Api.Controllers
     {
         private readonly IUserServices _newUserServices;
         private readonly ITwoFactorAuthenticationService _twoFactorAuthenticationService;
-        public UserController(IUserServices newUserServices, ITwoFactorAuthenticationService twoFactorAuthenticationService)
+        private readonly IUserExtendedInformationViewModelService _extendedInformationViewModelService;
+
+        public UserController(IUserServices newUserServices, ITwoFactorAuthenticationService twoFactorAuthenticationService, IUserExtendedInformationViewModelService extendedInformationViewModelService)
         {
             _newUserServices = newUserServices;
             _twoFactorAuthenticationService = twoFactorAuthenticationService;
+            _extendedInformationViewModelService = extendedInformationViewModelService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -94,6 +99,27 @@ namespace MclApp.Api.Controllers
             }
             var sts = await _twoFactorAuthenticationService.Disable2FaForUser(user.Id);
             return true;
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<UserExtendedInformationViewModel> GetExtendedInformation()
+        {
+            var data = await _extendedInformationViewModelService.GetUserExtendedInformation(BreachUser.Id);
+            data.FirstName = BreachUser.FirstName;
+            data.LastName = BreachUser.LastName;
+            data.Email = BreachUser.Email;
+            return data;
+        }
+        [Authorize]
+        [HttpGet]
+        public async Task<UserExtendedInformationViewModel> UpdateExtendedInformation(UserExtendedInformationViewModel model)
+        {
+            var data = await _extendedInformationViewModelService.GetUserExtendedInformation(BreachUser.Id);
+            data.FirstName = BreachUser.FirstName;
+            data.LastName = BreachUser.LastName;
+            data.Email = BreachUser.Email;
+            return data;
         }
 
 

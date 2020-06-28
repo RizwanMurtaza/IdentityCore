@@ -29,12 +29,12 @@ namespace MclApp.API.Controllers
         [HttpGet]
         public async Task<List<ImprovementTasksViewModel>> GetImprovementTasks()
         {
-            var data = await _improvementTasksViewModelService.GetAllTasksForUsers(this.BreachUser.Id);
+            var data = await _improvementTasksViewModelService.GetImprovementTasksForUsers(this.BreachUser.Id);
             return data;
         }
 
-        [HttpGet]
-        public async Task<bool> ToggleTaskStatus(string taskId)
+        [HttpPost]
+        public async Task<bool> ToggleTaskStatus([FromBody]string taskId)
         {
             if (!Guid.TryParse(taskId, out var id)) return false;
 

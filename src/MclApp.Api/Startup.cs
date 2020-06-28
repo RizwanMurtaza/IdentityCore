@@ -83,7 +83,7 @@ namespace MclApp.Api
  
 
             app.UseDefaultFiles();
-            app.UseHttpsRedirection();
+           // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

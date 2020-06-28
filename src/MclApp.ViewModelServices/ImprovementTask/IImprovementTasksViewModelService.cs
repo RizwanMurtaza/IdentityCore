@@ -6,6 +6,6 @@ namespace MclApp.ViewModelServices.ImprovementTask
 {
     public interface IImprovementTasksViewModelService
     {
-        Task<List<ImprovementTasksViewModel>> GetAllTasksForUsers(string userId);
+        Task<List<ImprovementTasksViewModel>> GetImprovementTasksForUsers(string userId);
     }
 }

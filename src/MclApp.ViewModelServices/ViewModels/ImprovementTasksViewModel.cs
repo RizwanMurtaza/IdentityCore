@@ -9,6 +9,7 @@ namespace MclApp.ViewModelServices.ViewModels
         public string Date { get; set; }
         public string TaskDescription { get; set; }
         public string Status { get; set; }
+        public string ButtonText => this.Status.ToLower().Contains("open") ? "Mark as Completed" : "Mark as Open";
     }
 
     public class ImprovementTasksViewModelMapping : Profile
